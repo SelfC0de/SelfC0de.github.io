@@ -4,477 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SelfC0de — Apps</title>
-    <style>
-        :root {
-            --bg: #0a0e1a;
-            --bg-elevated: rgba(20, 27, 45, 0.6);
-            --border: rgba(77, 208, 225, 0.15);
-            --border-hover: rgba(77, 208, 225, 0.5);
-            --text: #e6edf3;
-            --text-muted: #8b95a7;
-            --accent: #4dd0e1;
-            --accent-glow: rgba(77, 208, 225, 0.4);
-            --gradient-1: #1a1f3a;
-            --gradient-2: #0f1729;
-            --gradient-3: #1f1340;
-        }
-
-        [data-theme="light"] {
-            --bg: #f5f7fa;
-            --bg-elevated: rgba(255, 255, 255, 0.7);
-            --border: rgba(0, 122, 140, 0.15);
-            --border-hover: rgba(0, 122, 140, 0.5);
-            --text: #1a1f2e;
-            --text-muted: #5a6478;
-            --accent: #00838f;
-            --accent-glow: rgba(0, 131, 143, 0.3);
-            --gradient-1: #e0f2f1;
-            --gradient-2: #e8eaf6;
-            --gradient-3: #f3e5f5;
-        }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-
-        html { scroll-behavior: smooth; }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            background: var(--bg);
-            color: var(--text);
-            line-height: 1.6;
-            min-height: 100vh;
-            overflow-x: hidden;
-            transition: background 0.4s, color 0.4s;
-        }
-
-        /* ===== PRELOADER ===== */
-        #preloader {
-            position: fixed;
-            inset: 0;
-            background: var(--bg);
-            z-index: 9999;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
-            gap: 1.5rem;
-            transition: opacity 0.6s, visibility 0.6s;
-        }
-
-        #preloader.hidden {
-            opacity: 0;
-            visibility: hidden;
-        }
-
-        .loader-ring {
-            width: 60px;
-            height: 60px;
-            border: 3px solid var(--border);
-            border-top-color: var(--accent);
-            border-radius: 50%;
-            animation: spin 0.8s linear infinite;
-            box-shadow: 0 0 30px var(--accent-glow);
-        }
-
-        .loader-text {
-            color: var(--accent);
-            font-size: 0.9rem;
-            letter-spacing: 0.3em;
-            text-transform: uppercase;
-            animation: pulse 1.5s ease-in-out infinite;
-        }
-
-        @keyframes spin { to { transform: rotate(360deg); } }
-        @keyframes pulse { 50% { opacity: 0.4; } }
-
-        /* ===== ANIMATED BACKGROUND ===== */
-        .bg-animated {
-            position: fixed;
-            inset: 0;
-            z-index: -2;
-            background: linear-gradient(135deg, var(--gradient-1), var(--gradient-2), var(--gradient-3));
-            background-size: 400% 400%;
-            animation: gradientShift 18s ease infinite;
-        }
-
-        @keyframes gradientShift {
-            0%, 100% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-        }
-
-        #particles {
-            position: fixed;
-            inset: 0;
-            z-index: -1;
-            pointer-events: none;
-        }
-
-        /* ===== HEADER ===== */
-        header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            padding: 1rem 2rem;
-            background: rgba(10, 14, 26, 0.7);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-bottom: 1px solid var(--border);
-            z-index: 100;
-            transition: background 0.4s, border-color 0.4s;
-        }
-
-        [data-theme="light"] header {
-            background: rgba(245, 247, 250, 0.7);
-        }
-
-        nav {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo {
-            font-size: 1.3rem;
-            font-weight: 700;
-            background: linear-gradient(135deg, var(--accent), #b388ff);
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
-            letter-spacing: 0.05em;
-        }
-
-        .nav-actions {
-            display: flex;
-            gap: 1rem;
-            align-items: center;
-        }
-
-        .theme-toggle {
-            background: var(--bg-elevated);
-            border: 1px solid var(--border);
-            color: var(--text);
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s;
-            backdrop-filter: blur(10px);
-        }
-
-        .theme-toggle:hover {
-            border-color: var(--border-hover);
-            transform: rotate(15deg);
-        }
-
-        .theme-toggle svg {
-            width: 20px;
-            height: 20px;
-            transition: transform 0.4s;
-        }
-
-        [data-theme="dark"] .sun-icon { display: none; }
-        [data-theme="light"] .moon-icon { display: none; }
-
-        /* ===== HERO ===== */
-        .hero {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            padding: 6rem 2rem 4rem;
-            position: relative;
-        }
-
-        .hero-content {
-            max-width: 800px;
-        }
-
-        .hero-badge {
-            display: inline-block;
-            padding: 0.4rem 1rem;
-            background: var(--bg-elevated);
-            border: 1px solid var(--border);
-            border-radius: 100px;
-            font-size: 0.85rem;
-            color: var(--accent);
-            margin-bottom: 1.5rem;
-            backdrop-filter: blur(10px);
-            animation: fadeUp 0.8s ease;
-        }
-
-        .hero h1 {
-            font-size: clamp(2.5rem, 6vw, 4.5rem);
-            font-weight: 800;
-            line-height: 1.1;
-            margin-bottom: 1.5rem;
-            background: linear-gradient(135deg, var(--text) 0%, var(--accent) 100%);
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: fadeUp 0.8s ease 0.1s backwards;
-        }
-
-        .hero p {
-            font-size: 1.15rem;
-            color: var(--text-muted);
-            margin-bottom: 2.5rem;
-            animation: fadeUp 0.8s ease 0.2s backwards;
-        }
-
-        .hero-cta {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.9rem 2rem;
-            background: var(--accent);
-            color: var(--bg);
-            text-decoration: none;
-            border-radius: 100px;
-            font-weight: 600;
-            transition: all 0.3s;
-            box-shadow: 0 0 30px var(--accent-glow);
-            animation: fadeUp 0.8s ease 0.3s backwards;
-        }
-
-        .hero-cta:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 40px var(--accent-glow);
-        }
-
-        @keyframes fadeUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .scroll-hint {
-            position: absolute;
-            bottom: 2rem;
-            left: 50%;
-            transform: translateX(-50%);
-            color: var(--text-muted);
-            font-size: 0.85rem;
-            animation: bounce 2s infinite;
-        }
-
-        @keyframes bounce {
-            0%, 100% { transform: translateX(-50%) translateY(0); }
-            50% { transform: translateX(-50%) translateY(8px); }
-        }
-
-        /* ===== APPS SECTION ===== */
-        .apps-section {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 4rem 2rem;
-        }
-
-        .section-title {
-            font-size: 2.2rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-            text-align: center;
-        }
-
-        .section-subtitle {
-            text-align: center;
-            color: var(--text-muted);
-            margin-bottom: 3rem;
-        }
-
-        .apps-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 1.5rem;
-        }
-
-        .app-card {
-            background: var(--bg-elevated);
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            padding: 1.8rem;
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            overflow: hidden;
-            opacity: 0;
-            transform: translateY(40px);
-        }
-
-        .app-card.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .app-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, var(--accent), transparent);
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
-
-        .app-card:hover {
-            border-color: var(--border-hover);
-            transform: translateY(-6px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-        }
-
-        .app-card:hover::before {
-            opacity: 1;
-        }
-
-        .app-icon {
-            width: 56px;
-            height: 56px;
-            border-radius: 14px;
-            background: linear-gradient(135deg, var(--accent), #b388ff);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.6rem;
-            margin-bottom: 1.2rem;
-            box-shadow: 0 8px 20px var(--accent-glow);
-        }
-
-        .app-card h3 {
-            font-size: 1.3rem;
-            margin-bottom: 0.4rem;
-        }
-
-        .app-tag {
-            display: inline-block;
-            font-size: 0.75rem;
-            padding: 0.2rem 0.6rem;
-            background: var(--border);
-            color: var(--accent);
-            border-radius: 100px;
-            margin-bottom: 0.8rem;
-            letter-spacing: 0.05em;
-        }
-
-        .app-card p {
-            color: var(--text-muted);
-            font-size: 0.95rem;
-            margin-bottom: 1.5rem;
-            min-height: 3em;
-        }
-
-        .app-meta {
-            display: flex;
-            gap: 1rem;
-            font-size: 0.8rem;
-            color: var(--text-muted);
-            margin-bottom: 1.2rem;
-        }
-
-        .app-actions {
-            display: flex;
-            gap: 0.6rem;
-        }
-
-        .btn {
-            flex: 1;
-            padding: 0.7rem 1rem;
-            border-radius: 10px;
-            border: none;
-            cursor: pointer;
-            font-size: 0.9rem;
-            font-weight: 600;
-            text-decoration: none;
-            text-align: center;
-            transition: all 0.2s;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.4rem;
-        }
-
-        .btn-primary {
-            background: var(--accent);
-            color: var(--bg);
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 6px 15px var(--accent-glow);
-        }
-
-        .btn-secondary {
-            background: transparent;
-            color: var(--text);
-            border: 1px solid var(--border);
-        }
-
-        .btn-secondary:hover {
-            border-color: var(--border-hover);
-            color: var(--accent);
-        }
-
-        /* ===== PARALLAX SECTION ===== */
-        .parallax-strip {
-            position: relative;
-            padding: 6rem 2rem;
-            text-align: center;
-            overflow: hidden;
-        }
-
-        .parallax-bg {
-            position: absolute;
-            inset: -20% 0;
-            background: radial-gradient(circle at 50% 50%, var(--accent-glow), transparent 60%);
-            will-change: transform;
-        }
-
-        .parallax-content {
-            position: relative;
-            max-width: 700px;
-            margin: 0 auto;
-        }
-
-        .parallax-content h2 {
-            font-size: 2rem;
-            margin-bottom: 1rem;
-        }
-
-        .parallax-content p {
-            color: var(--text-muted);
-        }
-
-        /* ===== FOOTER ===== */
-        footer {
-            padding: 2.5rem 2rem;
-            text-align: center;
-            border-top: 1px solid var(--border);
-            color: var(--text-muted);
-            font-size: 0.9rem;
-            margin-top: 4rem;
-        }
-
-        footer a {
-            color: var(--accent);
-            text-decoration: none;
-        }
-
-        footer a:hover { text-decoration: underline; }
-
-        @media (max-width: 600px) {
-            header { padding: 0.8rem 1rem; }
-            .apps-section { padding: 3rem 1rem; }
-            .section-title { font-size: 1.7rem; }
-        }
-    </style>
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/layout.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/effects.css">
 </head>
 <body>
     <!-- PRELOADER -->
@@ -483,7 +16,7 @@
         <div class="loader-text">Loading</div>
     </div>
 
-    <!-- ANIMATED BACKGROUND -->
+    <!-- BACKGROUND -->
     <div class="bg-animated"></div>
     <canvas id="particles"></canvas>
 
@@ -491,6 +24,14 @@
     <header>
         <nav>
             <div class="logo">SELFC0DE</div>
+
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#apps">Apps</a></li>
+                <li><a href="#categories">Categories</a></li>
+                <li><a href="#about">About</a></li>
+            </ul>
+
             <div class="nav-actions">
                 <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
                     <svg class="moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -501,17 +42,22 @@
                         <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>
                     </svg>
                 </button>
+                <button class="menu-toggle" id="menuToggle" aria-label="Menu">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
+                        <path d="M3 6h18M3 12h18M3 18h18"/>
+                    </svg>
+                </button>
             </div>
         </nav>
     </header>
 
-    <!-- HERO -->
-    <section class="hero">
+    <!-- HOME / HERO -->
+    <section class="hero" id="home">
         <div class="hero-content">
             <span class="hero-badge">// Developer Tools & Utilities</span>
             <h1>Мои приложения<br>в одном месте</h1>
             <p>Коллекция инструментов, написанных под собственные задачи. Бери, используй, форкай.</p>
-            <a href="#apps" class="hero-cta">
+            <a href="#apps" class="btn btn-cta">
                 Перейти к приложениям
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
                     <path d="M5 12h14M12 5l7 7-7 7"/>
@@ -522,21 +68,32 @@
     </section>
 
     <!-- APPS -->
-    <section class="apps-section" id="apps">
-        <h2 class="section-title">Приложения</h2>
-        <p class="section-subtitle">Кликни «Скачать» или открой исходник на GitHub</p>
+    <section class="content-section" id="apps">
+        <div class="section-header">
+            <h2 class="section-title">Приложения</h2>
+            <p class="section-subtitle">Выбери категорию или скачай напрямую</p>
+        </div>
 
+        <!-- ФИЛЬТР -->
+        <div class="filter-bar">
+            <button class="filter-btn active" data-filter="all">All <span class="count"></span></button>
+            <button class="filter-btn" data-filter="cat-1">Category 1 <span class="count"></span></button>
+            <button class="filter-btn" data-filter="cat-2">Category 2 <span class="count"></span></button>
+            <button class="filter-btn" data-filter="cat-3">Category 3 <span class="count"></span></button>
+            <button class="filter-btn" data-filter="cat-4">Category 4 <span class="count"></span></button>
+        </div>
+
+        <!-- СЕТКА КАРТОЧЕК -->
         <div class="apps-grid">
-            <!-- ШАБЛОН КАРТОЧКИ. Дублируй блок <article class="app-card"> для каждого нового приложения -->
-            <article class="app-card">
+
+            <!-- ШАБЛОН КАРТОЧКИ. data-category должен совпадать с data-filter кнопки -->
+            <article class="app-card reveal" data-category="cat-1">
                 <div class="app-icon">🧹</div>
                 <h3>AU Session Cleaner</h3>
-                <span class="app-tag">WINDOWS</span>
+                <span class="app-tag">CATEGORY 1</span>
                 <p>Утилита для удаления временных сессий Adobe Audition CC. Glassmorphism UI, Cyber Teal.</p>
                 <div class="app-meta">
-                    <span>C++ / WinAPI</span>
-                    <span>•</span>
-                    <span>v1.0</span>
+                    <span>C++ / WinAPI</span><span>•</span><span>v1.0</span>
                 </div>
                 <div class="app-actions">
                     <a href="#" class="btn btn-primary">
@@ -549,15 +106,13 @@
                 </div>
             </article>
 
-            <article class="app-card">
+            <article class="app-card reveal" data-category="cat-2">
                 <div class="app-icon">🎙️</div>
                 <h3>VK Voice Downloader</h3>
-                <span class="app-tag">USERSCRIPT</span>
+                <span class="app-tag">CATEGORY 2</span>
                 <p>Tampermonkey-скрипт: перехватывает .ogg голосовые из VK и встраивает кнопки скачивания в нативный плеер.</p>
                 <div class="app-meta">
-                    <span>JavaScript</span>
-                    <span>•</span>
-                    <span>Tampermonkey</span>
+                    <span>JavaScript</span><span>•</span><span>Userscript</span>
                 </div>
                 <div class="app-actions">
                     <a href="#" class="btn btn-primary">
@@ -570,35 +125,101 @@
                 </div>
             </article>
 
-            <article class="app-card">
+            <article class="app-card reveal" data-category="cat-3">
                 <div class="app-icon">⚡</div>
-                <h3>Имя приложения</h3>
-                <span class="app-tag">CATEGORY</span>
+                <h3>App Name</h3>
+                <span class="app-tag">CATEGORY 3</span>
                 <p>Краткое описание приложения. Что делает, для кого, на чём написано.</p>
                 <div class="app-meta">
-                    <span>Stack</span>
-                    <span>•</span>
-                    <span>v0.1</span>
+                    <span>Stack</span><span>•</span><span>v0.1</span>
                 </div>
                 <div class="app-actions">
-                    <a href="#" class="btn btn-primary">
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/>
-                        </svg>
-                        Скачать
-                    </a>
+                    <a href="#" class="btn btn-primary">Скачать</a>
                     <a href="#" class="btn btn-secondary">GitHub</a>
                 </div>
             </article>
+
+            <article class="app-card reveal" data-category="cat-4">
+                <div class="app-icon">🛠️</div>
+                <h3>Another Tool</h3>
+                <span class="app-tag">CATEGORY 4</span>
+                <p>Ещё одна карточка-пример. Дублируй блок &lt;article&gt; для каждого нового приложения.</p>
+                <div class="app-meta">
+                    <span>Stack</span><span>•</span><span>v0.1</span>
+                </div>
+                <div class="app-actions">
+                    <a href="#" class="btn btn-primary">Скачать</a>
+                    <a href="#" class="btn btn-secondary">GitHub</a>
+                </div>
+            </article>
+
         </div>
     </section>
 
     <!-- PARALLAX -->
     <section class="parallax-strip">
         <div class="parallax-bg" id="parallaxBg"></div>
-        <div class="parallax-content">
+        <div class="parallax-content reveal">
             <h2>Открытый код</h2>
             <p>Все проекты доступны на GitHub. Issue, PR и форки приветствуются.</p>
+        </div>
+    </section>
+
+    <!-- CATEGORIES -->
+    <section class="content-section" id="categories">
+        <div class="section-header">
+            <h2 class="section-title">Категории</h2>
+            <p class="section-subtitle">Клик переносит к фильтру приложений</p>
+        </div>
+
+        <div class="categories-grid">
+            <div class="category-card reveal" data-filter="cat-1">
+                <div class="cat-icon">🪟</div>
+                <h3>Category 1</h3>
+                <div class="cat-count">смотреть →</div>
+            </div>
+            <div class="category-card reveal" data-filter="cat-2">
+                <div class="cat-icon">🌐</div>
+                <h3>Category 2</h3>
+                <div class="cat-count">смотреть →</div>
+            </div>
+            <div class="category-card reveal" data-filter="cat-3">
+                <div class="cat-icon">⚙️</div>
+                <h3>Category 3</h3>
+                <div class="cat-count">смотреть →</div>
+            </div>
+            <div class="category-card reveal" data-filter="cat-4">
+                <div class="cat-icon">📦</div>
+                <h3>Category 4</h3>
+                <div class="cat-count">смотреть →</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section class="content-section" id="about">
+        <div class="section-header">
+            <h2 class="section-title">Обо мне</h2>
+            <p class="section-subtitle">Делаю инструменты для себя — делюсь с теми, кому пригодится</p>
+        </div>
+
+        <div class="about-grid">
+            <div class="about-item reveal">
+                <div class="num">10+</div>
+                <div class="label">Проектов</div>
+            </div>
+            <div class="about-item reveal">
+                <div class="num">∞</div>
+                <div class="label">Open Source</div>
+            </div>
+            <div class="about-item reveal">
+                <div class="num">C++</div>
+                <div class="label">JS · Python</div>
+            </div>
+            <div class="about-item reveal">
+                <div class="num">24/7</div>
+                <div class="label">Pet projects</div>
+            </div>
         </div>
     </section>
 
@@ -607,131 +228,11 @@
         <p>&copy; 2026 SelfC0de · <a href="https://github.com/SelfC0de" target="_blank" rel="noopener">GitHub</a></p>
     </footer>
 
-    <script>
-        /* ===== PRELOADER ===== */
-        window.addEventListener('load', () => {
-            setTimeout(() => {
-                document.getElementById('preloader').classList.add('hidden');
-            }, 600);
-        });
-
-        /* ===== THEME TOGGLE ===== */
-        const themeToggle = document.getElementById('themeToggle');
-        const root = document.documentElement;
-
-        const savedTheme = localStorage.getItem('theme') || 'dark';
-        root.setAttribute('data-theme', savedTheme);
-
-        themeToggle.addEventListener('click', () => {
-            const current = root.getAttribute('data-theme');
-            const next = current === 'dark' ? 'light' : 'dark';
-            root.setAttribute('data-theme', next);
-            localStorage.setItem('theme', next);
-        });
-
-        /* ===== PARTICLES CANVAS ===== */
-        const canvas = document.getElementById('particles');
-        const ctx = canvas.getContext('2d');
-        let particles = [];
-        let mouse = { x: -1000, y: -1000 };
-
-        function resize() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        }
-        resize();
-        window.addEventListener('resize', resize);
-
-        window.addEventListener('mousemove', (e) => {
-            mouse.x = e.clientX;
-            mouse.y = e.clientY;
-        });
-
-        class Particle {
-            constructor() {
-                this.x = Math.random() * canvas.width;
-                this.y = Math.random() * canvas.height;
-                this.vx = (Math.random() - 0.5) * 0.4;
-                this.vy = (Math.random() - 0.5) * 0.4;
-                this.radius = Math.random() * 1.8 + 0.5;
-            }
-            update() {
-                this.x += this.vx;
-                this.y += this.vy;
-                if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
-                if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
-
-                const dx = this.x - mouse.x;
-                const dy = this.y - mouse.y;
-                const dist = Math.sqrt(dx * dx + dy * dy);
-                if (dist < 120) {
-                    const force = (120 - dist) / 120;
-                    this.x += (dx / dist) * force * 1.5;
-                    this.y += (dy / dist) * force * 1.5;
-                }
-            }
-            draw() {
-                const accent = getComputedStyle(root).getPropertyValue('--accent').trim();
-                ctx.fillStyle = accent;
-                ctx.globalAlpha = 0.6;
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-                ctx.fill();
-            }
-        }
-
-        function initParticles() {
-            const count = Math.min(80, Math.floor(window.innerWidth / 18));
-            particles = Array.from({ length: count }, () => new Particle());
-        }
-        initParticles();
-
-        function drawConnections() {
-            const accent = getComputedStyle(root).getPropertyValue('--accent').trim();
-            for (let i = 0; i < particles.length; i++) {
-                for (let j = i + 1; j < particles.length; j++) {
-                    const dx = particles[i].x - particles[j].x;
-                    const dy = particles[i].y - particles[j].y;
-                    const dist = Math.sqrt(dx * dx + dy * dy);
-                    if (dist < 130) {
-                        ctx.strokeStyle = accent;
-                        ctx.globalAlpha = (1 - dist / 130) * 0.2;
-                        ctx.lineWidth = 0.5;
-                        ctx.beginPath();
-                        ctx.moveTo(particles[i].x, particles[i].y);
-                        ctx.lineTo(particles[j].x, particles[j].y);
-                        ctx.stroke();
-                    }
-                }
-            }
-        }
-
-        function animate() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            particles.forEach(p => { p.update(); p.draw(); });
-            drawConnections();
-            requestAnimationFrame(animate);
-        }
-        animate();
-
-        /* ===== SCROLL REVEAL ===== */
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach((entry, i) => {
-                if (entry.isIntersecting) {
-                    setTimeout(() => entry.target.classList.add('visible'), i * 80);
-                    observer.unobserve(entry.target);
-                }
-            });
-        }, { threshold: 0.15 });
-
-        document.querySelectorAll('.app-card').forEach(card => observer.observe(card));
-
-        /* ===== PARALLAX ===== */
-        const parallaxBg = document.getElementById('parallaxBg');
-        window.addEventListener('scroll', () => {
-            const scrolled = window.pageYOffset;
-            parallaxBg.style.transform = `translateY(${scrolled * 0.3}px)`;
-        }, { passive: true });
-    </script>
+    <!-- JS МОДУЛИ -->
+    <script src="js/preloader.js"></script>
+    <script src="js/theme.js"></script>
+    <script src="js/particles.js"></script>
+    <script src="js/scroll.js"></script>
+    <script src="js/filter.js"></script>
 </body>
 </html>
