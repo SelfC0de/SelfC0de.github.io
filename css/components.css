@@ -5,7 +5,7 @@
     border-radius: 18px;
     padding: 24px;
     display: grid;
-    grid-template-columns: 280px 1fr auto;
+    grid-template-columns: minmax(220px, 280px) minmax(0, 1fr) auto;
     gap: 28px;
     align-items: center;
     margin-bottom: 16px;
@@ -19,6 +19,7 @@
 }
 
 .featured-visual {
+    width: 100%;
     height: 220px;
     border-radius: 14px;
     display: flex;
@@ -38,6 +39,10 @@
     filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.2));
 }
 
+.featured-info {
+    min-width: 0;
+}
+
 .featured-info .label {
     color: var(--accent);
     font-size: 11px;
@@ -52,6 +57,8 @@
     font-weight: 700;
     letter-spacing: -0.01em;
     margin-bottom: 6px;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
 }
 
 .featured-info .subtitle {
@@ -318,20 +325,59 @@
 .icon-moon { display: block; }
 
 /* ===== АДАПТИВ КАРТОЧЕК ===== */
-@media (max-width: 900px) {
+
+/* Средний экран: сайдбар ещё есть, но featured в 3 колонки не помещается */
+@media (max-width: 1200px) {
+    .featured {
+        grid-template-columns: 1fr auto;
+        grid-template-areas:
+            "visual action"
+            "info   info";
+        gap: 20px;
+    }
+    .featured-visual {
+        grid-area: visual;
+        height: 160px;
+        max-width: 320px;
+    }
+    .featured-action {
+        grid-area: action;
+        align-self: center;
+    }
+    .featured-info {
+        grid-area: info;
+    }
+    .featured-visual svg {
+        width: 80px;
+        height: 80px;
+    }
+}
+
+@media (max-width: 1000px) {
     .featured {
         grid-template-columns: 1fr;
+        grid-template-areas:
+            "visual"
+            "info"
+            "action";
         gap: 18px;
         padding: 18px;
     }
 
     .featured-visual {
         height: 160px;
+        max-width: 100%;
     }
 
     .featured-visual svg {
         width: 80px;
         height: 80px;
+    }
+
+    .featured-action {
+        flex-direction: row;
+        align-self: flex-start;
+        gap: 12px;
     }
 
     .app-row {
