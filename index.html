@@ -1,238 +1,357 @@
 <!DOCTYPE html>
-<html lang="ru" data-theme="dark">
+<html lang="ru" data-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SelfC0de — Apps</title>
+    <title>SelfC0de Store</title>
     <link rel="stylesheet" href="css/base.css">
     <link rel="stylesheet" href="css/layout.css">
     <link rel="stylesheet" href="css/components.css">
-    <link rel="stylesheet" href="css/effects.css">
 </head>
 <body>
-    <!-- PRELOADER -->
-    <div id="preloader">
-        <div class="loader-ring"></div>
-        <div class="loader-text">Loading</div>
+
+<!-- ===== SVG-СПРАЙТ ===== -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+        <!-- ОС: Windows -->
+        <symbol id="i-windows" viewBox="0 0 24 24">
+            <path fill="currentColor" d="M0 3.449L9.75 2.1v9.451H0m10.949-9.602L24 0v11.4H10.949M0 12.6h9.75v9.451L0 20.699M10.949 12.6H24V24l-12.9-1.801"/>
+        </symbol>
+        <!-- ОС: Apple/iOS -->
+        <symbol id="i-apple" viewBox="0 0 24 24">
+            <path fill="currentColor" d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.54 4.09zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z"/>
+        </symbol>
+        <!-- ОС: Android -->
+        <symbol id="i-android" viewBox="0 0 24 24">
+            <path fill="currentColor" d="M17.523 15.3414c-.5511 0-.9993-.4486-.9993-.9997s.4483-.9993.9993-.9993c.5511 0 .9993.4483.9993.9993.0001.5511-.4482.9997-.9993.9997m-11.046 0c-.5511 0-.9993-.4486-.9993-.9997s.4482-.9993.9993-.9993c.5511 0 .9993.4483.9993.9993 0 .5511-.4483.9997-.9993.9997m11.4045-6.02l1.9973-3.4592a.416.416 0 00-.1521-.5676.416.416 0 00-.5676.1521l-2.0223 3.503C15.5902 8.2439 13.8533 7.8508 12 7.8508s-3.5902.3931-5.1367 1.0989L4.841 5.4467a.4161.4161 0 00-.5677-.1521.4157.4157 0 00-.1521.5676l1.9973 3.4592C2.6889 11.1867.3432 14.6589 0 18.761h24c-.3432-4.1021-2.6889-7.5743-6.1185-9.4396"/>
+        </symbol>
+        <!-- ОС: Social (chat bubble) -->
+        <symbol id="i-social" viewBox="0 0 24 24">
+            <path fill="currentColor" d="M12 2C6.48 2 2 6.02 2 11c0 2.47 1.1 4.7 2.88 6.32-.13 1.07-.5 2.51-1.55 3.95-.21.29 0 .69.36.65 2.31-.26 4.07-1.17 5.19-1.93C10.05 20.65 11 20.75 12 20.75c5.52 0 10-4.02 10-9 0-4.98-4.48-9-10-9zm-4 8a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3zm4 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3zm4 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3z"/>
+        </symbol>
+
+        <!-- UI -->
+        <symbol id="i-search" viewBox="0 0 24 24">
+            <circle cx="11" cy="11" r="8" fill="none" stroke="currentColor" stroke-width="2"/>
+            <path d="m21 21-4.3-4.3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </symbol>
+        <symbol id="i-arrow-left" viewBox="0 0 24 24">
+            <path d="M19 12H5M12 19l-7-7 7-7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </symbol>
+        <symbol id="i-arrow-right" viewBox="0 0 24 24">
+            <path d="M5 12h14M12 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </symbol>
+        <symbol id="i-menu" viewBox="0 0 24 24">
+            <path d="M3 12h18M3 6h18M3 18h18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </symbol>
+        <symbol id="i-moon" viewBox="0 0 24 24">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+        </symbol>
+        <symbol id="i-sun" viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="2"/>
+            <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </symbol>
+        <symbol id="i-download" viewBox="0 0 24 24">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </symbol>
+        <symbol id="i-share" viewBox="0 0 24 24">
+            <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8M16 6l-4-4-4 4M12 2v13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </symbol>
+        <symbol id="i-link" viewBox="0 0 24 24">
+            <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </symbol>
+        <symbol id="i-check" viewBox="0 0 24 24">
+            <path d="M20 6 9 17l-5-5" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+        </symbol>
+
+        <!-- Иконки требований -->
+        <symbol id="i-cpu" viewBox="0 0 24 24">
+            <rect x="4" y="4" width="16" height="16" rx="2" fill="none" stroke="currentColor" stroke-width="2"/>
+            <rect x="9" y="9" width="6" height="6" fill="none" stroke="currentColor" stroke-width="2"/>
+            <path d="M9 1v3M15 1v3M9 20v3M15 20v3M20 9h3M20 14h3M1 9h3M1 14h3" stroke="currentColor" stroke-width="2"/>
+        </symbol>
+        <symbol id="i-memory" viewBox="0 0 24 24">
+            <path d="M6 19V5a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v14M3 8h3M3 12h3M3 16h3M18 8h3M18 12h3M18 16h3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </symbol>
+        <symbol id="i-disk" viewBox="0 0 24 24">
+            <ellipse cx="12" cy="5" rx="9" ry="3" fill="none" stroke="currentColor" stroke-width="2"/>
+            <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5M3 12c0 1.66 4 3 9 3s9-1.34 9-3" fill="none" stroke="currentColor" stroke-width="2"/>
+        </symbol>
+        <symbol id="i-version" viewBox="0 0 24 24">
+            <path d="M12 2v6m0 8v6M4.93 4.93l4.24 4.24m5.66 5.66 4.24 4.24M2 12h6m8 0h6M4.93 19.07l4.24-4.24m5.66-5.66 4.24-4.24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </symbol>
+    </defs>
+</svg>
+
+<!-- ===== TOP BAR ===== -->
+<header class="top-bar">
+    <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Меню">
+        <svg><use href="#i-menu"/></svg>
+    </button>
+
+    <div class="top-bar-nav">
+        <button aria-label="Назад"><svg><use href="#i-arrow-left"/></svg></button>
+        <button aria-label="Вперёд"><svg><use href="#i-arrow-right"/></svg></button>
     </div>
 
-    <!-- BACKGROUND -->
-    <div class="bg-animated"></div>
-    <canvas id="particles"></canvas>
+    <div class="search-box">
+        <svg><use href="#i-search"/></svg>
+        <input type="text" id="searchInput" placeholder="Поиск приложений, категорий, тегов…">
+    </div>
 
-    <!-- HEADER -->
-    <header>
-        <nav>
-            <div class="logo">SELFC0DE</div>
+    <button class="theme-toggle" id="themeToggle" aria-label="Сменить тему">
+        <svg class="icon-moon"><use href="#i-moon"/></svg>
+        <svg class="icon-sun"><use href="#i-sun"/></svg>
+    </button>
 
-            <ul class="nav-links" id="navLinks">
-                <li><a href="#home">Home</a></li>
-                <li><a href="#apps">Apps</a></li>
-                <li><a href="#categories">Categories</a></li>
-                <li><a href="#about">About</a></li>
+    <div class="brand"><span class="logo-mark">⌘</span> SelfC0de Store</div>
+</header>
+
+<!-- ===== ОСНОВНОЙ LAYOUT ===== -->
+<div class="app-layout">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-section">
+            <div class="sidebar-title">Открыть</div>
+            <ul class="sidebar-nav">
+                <li><a href="#" class="sidebar-link active" data-filter="all">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="3" width="7" height="7" rx="1"/>
+                        <rect x="14" y="3" width="7" height="7" rx="1"/>
+                        <rect x="3" y="14" width="7" height="7" rx="1"/>
+                        <rect x="14" y="14" width="7" height="7" rx="1"/>
+                    </svg>
+                    Все приложения
+                    <span class="count">0</span>
+                </a></li>
             </ul>
+        </div>
 
-            <div class="nav-actions">
-                <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
-                    <svg class="moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        <div class="sidebar-section">
+            <div class="sidebar-title">Категории</div>
+            <ul class="sidebar-nav">
+                <li><a href="#" class="sidebar-link" data-filter="windows">
+                    <svg><use href="#i-windows"/></svg>
+                    Windows
+                    <span class="count">0</span>
+                </a></li>
+                <li><a href="#" class="sidebar-link" data-filter="ios">
+                    <svg><use href="#i-apple"/></svg>
+                    iOS
+                    <span class="count">0</span>
+                </a></li>
+                <li><a href="#" class="sidebar-link" data-filter="android">
+                    <svg><use href="#i-android"/></svg>
+                    Android
+                    <span class="count">0</span>
+                </a></li>
+                <li><a href="#" class="sidebar-link" data-filter="social">
+                    <svg><use href="#i-social"/></svg>
+                    Social
+                    <span class="count">0</span>
+                </a></li>
+            </ul>
+        </div>
+
+        <div class="sidebar-section">
+            <div class="sidebar-title">Разработчик</div>
+            <ul class="sidebar-nav">
+                <li><a href="https://github.com/SelfC0de" target="_blank" rel="noopener" class="sidebar-link">
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.44 9.8 8.21 11.39.6.11.82-.26.82-.58 0-.29-.01-1.04-.02-2.05-3.34.73-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.08-.74.08-.73.08-.73 1.2.09 1.83 1.24 1.83 1.24 1.07 1.83 2.81 1.3 3.49.99.11-.78.42-1.3.76-1.6-2.66-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.13-.3-.54-1.52.11-3.18 0 0 1.01-.32 3.3 1.23.96-.27 1.98-.4 3-.41 1.02.01 2.04.14 3 .41 2.29-1.55 3.3-1.23 3.3-1.23.65 1.66.24 2.88.12 3.18.77.84 1.23 1.91 1.23 3.22 0 4.61-2.81 5.62-5.49 5.92.43.37.81 1.1.81 2.22 0 1.61-.01 2.9-.01 3.29 0 .32.22.7.83.58C20.56 21.8 24 17.31 24 12c0-6.63-5.37-12-12-12z"/></svg>
+                    GitHub
+                </a></li>
+                <li><a href="#about" class="sidebar-link">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"/>
+                        <path d="M12 16v-4M12 8h.01"/>
                     </svg>
-                    <svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <circle cx="12" cy="12" r="4"/>
-                        <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>
-                    </svg>
-                </button>
-                <button class="menu-toggle" id="menuToggle" aria-label="Menu">
-                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
-                        <path d="M3 6h18M3 12h18M3 18h18"/>
-                    </svg>
-                </button>
+                    О проекте
+                </a></li>
+            </ul>
+        </div>
+    </aside>
+    <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+
+    <!-- MAIN -->
+    <main class="main-content">
+
+        <div class="page-header">
+            <h1 class="page-title">Featured</h1>
+            <p class="page-subtitle">Каталог моих приложений — выбери платформу слева и скачай напрямую</p>
+        </div>
+
+        <!-- FEATURED -->
+        <div class="featured" id="featured">
+            <div class="featured-visual">
+                <svg><use href="#i-windows"/></svg>
             </div>
-        </nav>
-    </header>
-
-    <!-- HOME / HERO -->
-    <section class="hero" id="home">
-        <div class="hero-content">
-            <span class="hero-badge">// Developer Tools & Utilities</span>
-            <h1>Мои приложения<br>в одном месте</h1>
-            <p>Коллекция инструментов, написанных под собственные задачи. Бери, используй, форкай.</p>
-            <a href="#apps" class="btn btn-cta">
-                Перейти к приложениям
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                    <path d="M5 12h14M12 5l7 7-7 7"/>
-                </svg>
-            </a>
-        </div>
-        <div class="scroll-hint">↓ scroll</div>
-    </section>
-
-    <!-- APPS -->
-    <section class="content-section" id="apps">
-        <div class="section-header">
-            <h2 class="section-title">Приложения</h2>
-            <p class="section-subtitle">Выбери категорию или скачай напрямую</p>
+            <div class="featured-info">
+                <div class="label">Editor's choice</div>
+                <h2>AU Session Cleaner</h2>
+                <div class="subtitle">Утилита для Adobe Audition · Windows · v1.0</div>
+                <p class="desc">Удаляет временные сессии Adobe Audition CC, освобождает место на диске. Glassmorphism UI в цветовой схеме Cyber Teal.</p>
+            </div>
+            <div class="featured-action">
+                <a href="downloads/au-session-cleaner.exe" download class="btn-get">
+                    <svg><use href="#i-download"/></svg> Скачать
+                </a>
+                <div class="price">2.4 MB · Free</div>
+            </div>
         </div>
 
-        <!-- ФИЛЬТР -->
-        <div class="filter-bar">
-            <button class="filter-btn active" data-filter="all">All <span class="count"></span></button>
-            <button class="filter-btn" data-filter="cat-1">Category 1 <span class="count"></span></button>
-            <button class="filter-btn" data-filter="cat-2">Category 2 <span class="count"></span></button>
-            <button class="filter-btn" data-filter="cat-3">Category 3 <span class="count"></span></button>
-            <button class="filter-btn" data-filter="cat-4">Category 4 <span class="count"></span></button>
+        <!-- ВСЕ ПРИЛОЖЕНИЯ -->
+        <div class="section-divider">
+            <h2>Все приложения</h2>
+            <div class="meta">Прямая загрузка с сайта</div>
         </div>
 
-        <!-- СЕТКА КАРТОЧЕК -->
-        <div class="apps-grid">
+        <div class="apps-list">
 
-            <!-- ШАБЛОН КАРТОЧКИ. data-category должен совпадать с data-filter кнопки -->
-            <article class="app-card reveal" data-category="cat-1">
-                <div class="app-icon">🧹</div>
-                <h3>AU Session Cleaner</h3>
-                <span class="app-tag">CATEGORY 1</span>
-                <p>Утилита для удаления временных сессий Adobe Audition CC. Glassmorphism UI, Cyber Teal.</p>
-                <div class="app-meta">
-                    <span>C++ / WinAPI</span><span>•</span><span>v1.0</span>
+            <!-- ===== ШАБЛОН КАРТОЧКИ =====
+                 data-category: windows / ios / android / social
+                 data-search:   текст для поиска (название, описание, теги)
+                 data-copy:     якорь для прямой ссылки на это приложение
+                 .app-icon icon-windows / icon-ios / icon-android / icon-social
+            -->
+
+            <article class="app-row" id="au-session-cleaner"
+                     data-category="windows"
+                     data-search="au session cleaner adobe audition windows утилита">
+                <div class="app-icon icon-windows">
+                    <svg><use href="#i-windows"/></svg>
+                </div>
+                <div class="app-info">
+                    <h3>AU Session Cleaner</h3>
+                    <div class="app-meta"><strong>Windows</strong> · v1.0 · C++ / WinAPI</div>
+                    <p class="app-desc">Удаление временных сессий Adobe Audition CC одним кликом.</p>
+                    <div class="app-requirements">
+                        <span class="req-chip"><svg><use href="#i-windows"/></svg>Windows 10+</span>
+                        <span class="req-chip"><svg><use href="#i-cpu"/></svg>x64</span>
+                        <span class="req-chip"><svg><use href="#i-memory"/></svg>50 MB RAM</span>
+                        <span class="req-chip"><svg><use href="#i-disk"/></svg>5 MB</span>
+                    </div>
                 </div>
                 <div class="app-actions">
-                    <a href="#" class="btn btn-primary">
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/>
-                        </svg>
-                        Скачать
-                    </a>
-                    <a href="#" class="btn btn-secondary">GitHub</a>
+                    <div class="app-actions-row">
+                        <button class="btn-icon" data-copy="au-session-cleaner" title="Копировать ссылку">
+                            <svg><use href="#i-link"/></svg>
+                        </button>
+                        <a href="downloads/au-session-cleaner.exe" download class="btn-get">
+                            <svg><use href="#i-download"/></svg> Get
+                        </a>
+                    </div>
+                    <div class="size">2.4 MB</div>
                 </div>
             </article>
 
-            <article class="app-card reveal" data-category="cat-2">
-                <div class="app-icon">🎙️</div>
-                <h3>VK Voice Downloader</h3>
-                <span class="app-tag">CATEGORY 2</span>
-                <p>Tampermonkey-скрипт: перехватывает .ogg голосовые из VK и встраивает кнопки скачивания в нативный плеер.</p>
-                <div class="app-meta">
-                    <span>JavaScript</span><span>•</span><span>Userscript</span>
+            <article class="app-row" id="vk-voice-downloader"
+                     data-category="social"
+                     data-search="vk voice downloader tampermonkey userscript голосовые скачивание">
+                <div class="app-icon icon-social">
+                    <svg><use href="#i-social"/></svg>
+                </div>
+                <div class="app-info">
+                    <h3>VK Voice Downloader</h3>
+                    <div class="app-meta"><strong>Social</strong> · v1.0 · Userscript</div>
+                    <p class="app-desc">Скачивание .ogg голосовых сообщений из VK прямо из нативного плеера.</p>
+                    <div class="app-requirements">
+                        <span class="req-chip"><svg><use href="#i-social"/></svg>Tampermonkey</span>
+                        <span class="req-chip"><svg><use href="#i-version"/></svg>Chrome/Edge/FF</span>
+                        <span class="req-chip"><svg><use href="#i-disk"/></svg>&lt; 1 MB</span>
+                    </div>
                 </div>
                 <div class="app-actions">
-                    <a href="#" class="btn btn-primary">
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/>
-                        </svg>
-                        Установить
-                    </a>
-                    <a href="#" class="btn btn-secondary">GitHub</a>
+                    <div class="app-actions-row">
+                        <button class="btn-icon" data-copy="vk-voice-downloader" title="Копировать ссылку">
+                            <svg><use href="#i-link"/></svg>
+                        </button>
+                        <a href="downloads/vk-voice-downloader.user.js" download class="btn-get">
+                            <svg><use href="#i-download"/></svg> Install
+                        </a>
+                    </div>
+                    <div class="size">18 KB</div>
                 </div>
             </article>
 
-            <article class="app-card reveal" data-category="cat-3">
-                <div class="app-icon">⚡</div>
-                <h3>App Name</h3>
-                <span class="app-tag">CATEGORY 3</span>
-                <p>Краткое описание приложения. Что делает, для кого, на чём написано.</p>
-                <div class="app-meta">
-                    <span>Stack</span><span>•</span><span>v0.1</span>
+            <article class="app-row" id="android-app-name"
+                     data-category="android"
+                     data-search="android app kotlin">
+                <div class="app-icon icon-android">
+                    <svg><use href="#i-android"/></svg>
+                </div>
+                <div class="app-info">
+                    <h3>Android App Name</h3>
+                    <div class="app-meta"><strong>Android</strong> · v1.0 · Kotlin</div>
+                    <p class="app-desc">Краткое описание Android-приложения.</p>
+                    <div class="app-requirements">
+                        <span class="req-chip"><svg><use href="#i-android"/></svg>Android 8.0+</span>
+                        <span class="req-chip"><svg><use href="#i-cpu"/></svg>ARM64</span>
+                        <span class="req-chip"><svg><use href="#i-disk"/></svg>20 MB</span>
+                    </div>
                 </div>
                 <div class="app-actions">
-                    <a href="#" class="btn btn-primary">Скачать</a>
-                    <a href="#" class="btn btn-secondary">GitHub</a>
+                    <div class="app-actions-row">
+                        <button class="btn-icon" data-copy="android-app-name" title="Копировать ссылку">
+                            <svg><use href="#i-link"/></svg>
+                        </button>
+                        <a href="downloads/app-name.apk" download class="btn-get">
+                            <svg><use href="#i-download"/></svg> Get
+                        </a>
+                    </div>
+                    <div class="size">— MB</div>
                 </div>
             </article>
 
-            <article class="app-card reveal" data-category="cat-4">
-                <div class="app-icon">🛠️</div>
-                <h3>Another Tool</h3>
-                <span class="app-tag">CATEGORY 4</span>
-                <p>Ещё одна карточка-пример. Дублируй блок &lt;article&gt; для каждого нового приложения.</p>
-                <div class="app-meta">
-                    <span>Stack</span><span>•</span><span>v0.1</span>
+            <article class="app-row" id="ios-app-name"
+                     data-category="ios"
+                     data-search="ios app swift">
+                <div class="app-icon icon-ios">
+                    <svg><use href="#i-apple"/></svg>
+                </div>
+                <div class="app-info">
+                    <h3>iOS App Name</h3>
+                    <div class="app-meta"><strong>iOS</strong> · v1.0 · Swift</div>
+                    <p class="app-desc">Краткое описание iOS-приложения.</p>
+                    <div class="app-requirements">
+                        <span class="req-chip"><svg><use href="#i-apple"/></svg>iOS 14+</span>
+                        <span class="req-chip"><svg><use href="#i-cpu"/></svg>A11 Bionic+</span>
+                        <span class="req-chip"><svg><use href="#i-disk"/></svg>30 MB</span>
+                    </div>
                 </div>
                 <div class="app-actions">
-                    <a href="#" class="btn btn-primary">Скачать</a>
-                    <a href="#" class="btn btn-secondary">GitHub</a>
+                    <div class="app-actions-row">
+                        <button class="btn-icon" data-copy="ios-app-name" title="Копировать ссылку">
+                            <svg><use href="#i-link"/></svg>
+                        </button>
+                        <a href="downloads/app-name.ipa" download class="btn-get">
+                            <svg><use href="#i-download"/></svg> Get
+                        </a>
+                    </div>
+                    <div class="size">— MB</div>
                 </div>
             </article>
 
         </div>
-    </section>
 
-    <!-- PARALLAX -->
-    <section class="parallax-strip">
-        <div class="parallax-bg" id="parallaxBg"></div>
-        <div class="parallax-content reveal">
-            <h2>Открытый код</h2>
-            <p>Все проекты доступны на GitHub. Issue, PR и форки приветствуются.</p>
+        <!-- ABOUT -->
+        <div class="section-divider" id="about">
+            <h2>О проекте</h2>
         </div>
-    </section>
+        <p style="color: var(--text-secondary); font-size: 14px; max-width: 720px; line-height: 1.65;">
+            SelfC0de Store — личная витрина моих pet-проектов. Все приложения публикуются под open-source лицензией.
+            Исходники доступны на <a href="https://github.com/SelfC0de" target="_blank" rel="noopener" style="color: var(--accent);">GitHub</a>.
+        </p>
+    </main>
+</div>
 
-    <!-- CATEGORIES -->
-    <section class="content-section" id="categories">
-        <div class="section-header">
-            <h2 class="section-title">Категории</h2>
-            <p class="section-subtitle">Клик переносит к фильтру приложений</p>
-        </div>
+<!-- TOAST -->
+<div class="toast" id="toast">
+    <svg><use href="#i-check"/></svg>
+    <span class="toast-text">Ссылка скопирована</span>
+</div>
 
-        <div class="categories-grid">
-            <div class="category-card reveal" data-filter="cat-1">
-                <div class="cat-icon">🪟</div>
-                <h3>Category 1</h3>
-                <div class="cat-count">смотреть →</div>
-            </div>
-            <div class="category-card reveal" data-filter="cat-2">
-                <div class="cat-icon">🌐</div>
-                <h3>Category 2</h3>
-                <div class="cat-count">смотреть →</div>
-            </div>
-            <div class="category-card reveal" data-filter="cat-3">
-                <div class="cat-icon">⚙️</div>
-                <h3>Category 3</h3>
-                <div class="cat-count">смотреть →</div>
-            </div>
-            <div class="category-card reveal" data-filter="cat-4">
-                <div class="cat-icon">📦</div>
-                <h3>Category 4</h3>
-                <div class="cat-count">смотреть →</div>
-            </div>
-        </div>
-    </section>
-
-    <!-- ABOUT -->
-    <section class="content-section" id="about">
-        <div class="section-header">
-            <h2 class="section-title">Обо мне</h2>
-            <p class="section-subtitle">Делаю инструменты для себя — делюсь с теми, кому пригодится</p>
-        </div>
-
-        <div class="about-grid">
-            <div class="about-item reveal">
-                <div class="num">10+</div>
-                <div class="label">Проектов</div>
-            </div>
-            <div class="about-item reveal">
-                <div class="num">∞</div>
-                <div class="label">Open Source</div>
-            </div>
-            <div class="about-item reveal">
-                <div class="num">C++</div>
-                <div class="label">JS · Python</div>
-            </div>
-            <div class="about-item reveal">
-                <div class="num">24/7</div>
-                <div class="label">Pet projects</div>
-            </div>
-        </div>
-    </section>
-
-    <!-- FOOTER -->
-    <footer>
-        <p>&copy; 2026 SelfC0de · <a href="https://github.com/SelfC0de" target="_blank" rel="noopener">GitHub</a></p>
-    </footer>
-
-    <!-- JS МОДУЛИ -->
-    <script src="js/preloader.js"></script>
-    <script src="js/theme.js"></script>
-    <script src="js/particles.js"></script>
-    <script src="js/scroll.js"></script>
-    <script src="js/filter.js"></script>
+<script src="js/theme.js"></script>
+<script src="js/app.js"></script>
 </body>
 </html>
