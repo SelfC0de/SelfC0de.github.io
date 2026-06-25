@@ -1,140 +1,137 @@
-/* ===== ФИЛЬТР ПО КАТЕГОРИЯМ (сайдбар) ===== */
-(function() {
-    const links = document.querySelectorAll('.sidebar-link[data-filter]');
-    const rows = document.querySelectorAll('.app-row');
+(() => {
+    const links = [...document.querySelectorAll('.sidebar-link[data-filter]')];
+    const rows = [...document.querySelectorAll('.app-row')];
     const list = document.querySelector('.apps-list');
-    if (!links.length || !rows.length) return;
-
-    function plural(n, forms) {
-        const m10 = n % 10, m100 = n % 100;
-        if (m10 === 1 && m100 !== 11) return forms[0];
-        if ([2,3,4].includes(m10) && ![12,13,14].includes(m100)) return forms[1];
-        return forms[2];
-    }
-
-    function updateCounts() {
-        links.forEach(link => {
-            const filter = link.dataset.filter;
-            const countEl = link.querySelector('.count');
-            if (!countEl) return;
-            const count = filter === 'all'
-                ? rows.length
-                : Array.from(rows).filter(r => r.dataset.category === filter).length;
-            countEl.textContent = count;
-        });
-    }
-
-    function applyFilter(filter, searchQuery = '') {
-        let visible = 0;
-        rows.forEach(row => {
-            const catMatch = filter === 'all' || row.dataset.category === filter;
-            const text = (row.dataset.search || '').toLowerCase();
-            const searchMatch = !searchQuery || text.includes(searchQuery.toLowerCase());
-            const show = catMatch && searchMatch;
-            row.classList.toggle('hidden', !show);
-            if (show) visible++;
-        });
-
-        let empty = list.querySelector('.empty-state');
-        if (visible === 0) {
-            if (!empty) {
-                empty = document.createElement('div');
-                empty.className = 'empty-state';
-                empty.innerHTML = `
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                        <circle cx="11" cy="11" r="8"/>
-                        <path d="m21 21-4.3-4.3"/>
-                    </svg>
-                    <div>Ничего не найдено</div>
-                `;
-                list.appendChild(empty);
-            }
-        } else if (empty) {
-            empty.remove();
-        }
-    }
-
+    const visibleCount = document.getElementById('visibleCount');
+    const search = document.getElementById('searchInput');
     let currentFilter = 'all';
     let currentSearch = '';
 
-    links.forEach(link => {
-        link.addEventListener('click', (e) => {
-            e.preventDefault();
-            links.forEach(l => l.classList.remove('active'));
+    const plural = (n) => {
+        const mod10 = n % 10;
+        const mod100 = n % 100;
+        if (mod10 === 1 && mod100 !== 11) return 'приложение доступно';
+        if ([2, 3, 4].includes(mod10) && ![12, 13, 14].includes(mod100)) return 'приложения доступны';
+        return 'приложений доступно';
+    };
+
+    const updateCounts = () => {
+        links.forEach((link) => {
+            const count = link.dataset.filter === 'all'
+                ? rows.length
+                : rows.filter((row) => row.dataset.category === link.dataset.filter).length;
+            const countNode = link.querySelector('.count');
+            if (countNode) countNode.textContent = String(count);
+        });
+    };
+
+    const applyFilter = () => {
+        let visible = 0;
+        rows.forEach((row) => {
+            const categoryMatches = currentFilter === 'all' || row.dataset.category === currentFilter;
+            const queryMatches = !currentSearch || (row.dataset.search || '').toLowerCase().includes(currentSearch);
+            const show = categoryMatches && queryMatches;
+            row.classList.toggle('hidden', !show);
+            row.setAttribute('aria-hidden', String(!show));
+            if (show) visible += 1;
+        });
+
+        if (visibleCount) visibleCount.textContent = `${visible} ${plural(visible)}`;
+        const previousEmpty = list?.querySelector('.empty-state');
+        if (!list) return;
+        if (visible === 0 && !previousEmpty) {
+            const empty = document.createElement('div');
+            empty.className = 'empty-state';
+            empty.innerHTML = '<div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg><strong>Ничего не найдено</strong><p>Попробуйте изменить запрос или выбрать другую категорию.</p></div>';
+            list.appendChild(empty);
+        } else if (visible > 0 && previousEmpty) {
+            previousEmpty.remove();
+        }
+        window.dispatchEvent(new CustomEvent('catalog:updated'));
+    };
+
+    links.forEach((link) => {
+        link.addEventListener('click', (event) => {
+            event.preventDefault();
+            links.forEach((item) => item.classList.remove('active'));
             link.classList.add('active');
             currentFilter = link.dataset.filter;
-            applyFilter(currentFilter, currentSearch);
-            /* закрыть сайдбар на мобиле */
-            document.querySelector('.sidebar')?.classList.remove('open');
-            document.querySelector('.sidebar-backdrop')?.classList.remove('show');
+            applyFilter();
+            document.getElementById('apps')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            closeSidebar();
         });
     });
 
-    /* поиск */
-    const search = document.getElementById('searchInput');
-    if (search) {
-        search.addEventListener('input', () => {
-            currentSearch = search.value.trim();
-            applyFilter(currentFilter, currentSearch);
-        });
-    }
+    search?.addEventListener('input', () => {
+        currentSearch = search.value.trim().toLowerCase();
+        applyFilter();
+    });
+
+    document.addEventListener('keydown', (event) => {
+        const modifier = navigator.platform.toLowerCase().includes('mac') ? event.metaKey : event.ctrlKey;
+        if (modifier && event.key.toLowerCase() === 'k') {
+            event.preventDefault();
+            search?.focus();
+            search?.select();
+        }
+        if (event.key === 'Escape' && document.activeElement === search) {
+            search.value = '';
+            currentSearch = '';
+            search.blur();
+            applyFilter();
+        }
+    });
 
     updateCounts();
-})();
+    applyFilter();
 
-/* ===== МОБИЛЬНОЕ МЕНЮ ===== */
-(function() {
-    const btn = document.getElementById('mobileMenuBtn');
-    const sidebar = document.querySelector('.sidebar');
-    const backdrop = document.querySelector('.sidebar-backdrop');
-    if (!btn || !sidebar || !backdrop) return;
+    const menuButton = document.getElementById('mobileMenuBtn');
+    const sidebar = document.getElementById('sidebar');
+    const backdrop = document.getElementById('sidebarBackdrop');
 
-    btn.addEventListener('click', () => {
-        sidebar.classList.toggle('open');
-        backdrop.classList.toggle('show');
-    });
-    backdrop.addEventListener('click', () => {
-        sidebar.classList.remove('open');
-        backdrop.classList.remove('show');
-    });
-})();
-
-/* ===== COPY LINK + TOAST ===== */
-(function() {
-    const toast = document.getElementById('toast');
-    if (!toast) return;
-    let timer;
-
-    function showToast(message) {
-        toast.querySelector('.toast-text').textContent = message;
-        toast.classList.add('show');
-        clearTimeout(timer);
-        timer = setTimeout(() => toast.classList.remove('show'), 2200);
+    function closeSidebar() {
+        sidebar?.classList.remove('open');
+        backdrop?.classList.remove('show');
+        menuButton?.setAttribute('aria-expanded', 'false');
     }
 
-    document.querySelectorAll('[data-copy]').forEach(btn => {
-        btn.addEventListener('click', async (e) => {
-            e.stopPropagation();
-            const slug = btn.dataset.copy;
-            const url = `${window.location.origin}${window.location.pathname}#${slug}`;
+    menuButton?.addEventListener('click', () => {
+        const open = !sidebar?.classList.contains('open');
+        sidebar?.classList.toggle('open', open);
+        backdrop?.classList.toggle('show', open);
+        menuButton.setAttribute('aria-expanded', String(open));
+    });
+    backdrop?.addEventListener('click', closeSidebar);
+
+    const toast = document.getElementById('toast');
+    let toastTimer;
+    const showToast = (message) => {
+        if (!toast) return;
+        const text = toast.querySelector('.toast-text');
+        if (text) text.textContent = message;
+        toast.classList.add('show');
+        clearTimeout(toastTimer);
+        toastTimer = window.setTimeout(() => toast.classList.remove('show'), 2200);
+    };
+
+    document.querySelectorAll('[data-copy]').forEach((button) => {
+        button.addEventListener('click', async (event) => {
+            event.stopPropagation();
+            const url = `${location.origin}${location.pathname}#${button.dataset.copy}`;
             try {
                 await navigator.clipboard.writeText(url);
                 showToast('Ссылка скопирована');
             } catch {
-                /* fallback для http и старых браузеров */
-                const ta = document.createElement('textarea');
-                ta.value = url;
-                document.body.appendChild(ta);
-                ta.select();
-                try { document.execCommand('copy'); showToast('Ссылка скопирована'); }
-                catch { showToast('Не удалось скопировать'); }
-                ta.remove();
+                const textarea = document.createElement('textarea');
+                textarea.value = url;
+                textarea.style.position = 'fixed';
+                textarea.style.opacity = '0';
+                document.body.appendChild(textarea);
+                textarea.select();
+                const copied = document.execCommand('copy');
+                textarea.remove();
+                showToast(copied ? 'Ссылка скопирована' : 'Не удалось скопировать');
             }
         });
-    });
-
-    /* Кнопка скачивания — не триггерит клик по строке */
-    document.querySelectorAll('.app-row .btn-get').forEach(btn => {
-        btn.addEventListener('click', (e) => e.stopPropagation());
     });
 })();
