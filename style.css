@@ -366,6 +366,9 @@ ul {
     padding: 18px;
     border-radius: var(--radius-sm);
     transition: border-color .2s ease;
+    position: relative;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
 }
 
 .changelog-version-box:hover {
@@ -382,7 +385,16 @@ ul {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: 10px;
     margin-bottom: 10px;
+    flex-wrap: wrap;
+}
+
+.version-meta {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
 }
 
 .version-tag {
@@ -393,6 +405,8 @@ ul {
     border-radius: 6px;
     color: var(--text-main);
     letter-spacing: 0.3px;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
 }
 
 .current-release .version-tag {
@@ -400,9 +414,41 @@ ul {
     color: var(--accent);
 }
 
+.current-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    padding: 3px 8px;
+    border-radius: 6px;
+    color: var(--accent);
+    background: rgba(0, 191, 255, 0.12);
+    border: 1px solid rgba(0, 191, 255, 0.28);
+}
+
+.current-badge::before {
+    content: "";
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 8px var(--accent-glow);
+    animation: pulse-dot 1.8s ease-in-out infinite;
+}
+
+@keyframes pulse-dot {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50%      { opacity: 0.55; transform: scale(0.85); }
+}
+
 .version-date-inline {
     font-size: 0.78rem;
     color: var(--text-muted);
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
 }
 
 .version-title-inline {
@@ -410,6 +456,7 @@ ul {
     margin-bottom: 12px;
     color: var(--text-main);
     font-weight: 600;
+    line-height: 1.35;
 }
 
 .version-changes-list li {
@@ -419,6 +466,7 @@ ul {
     margin-bottom: 7px;
     position: relative;
     padding-left: 16px;
+    word-break: break-word;
 }
 
 .version-changes-list li:last-child {
@@ -426,12 +474,20 @@ ul {
 }
 
 .version-changes-list li::before {
-    content: "•";
-    color: var(--accent);
+    content: "";
     position: absolute;
-    left: 0;
-    top: 0;
-    line-height: 1.55;
+    left: 2px;
+    top: 0.65em;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 6px rgba(0, 191, 255, 0.4);
+}
+
+.changelog-version-box:not(.current-release) .version-changes-list li::before {
+    background: rgba(255, 255, 255, 0.35);
+    box-shadow: none;
 }
 
 /* ===== FOOTER ===== */
@@ -495,8 +551,7 @@ ul {
     }
 
     .version-info {
-        width: 100%;
-        text-align: center;
+        display: none;
     }
 }
 
@@ -513,4 +568,48 @@ ul {
         font-size: 0.95rem;
         max-width: 100%;
     }
+}
+
+/* ===== DISABLED BUTTON (maintenance mode) ===== */
+.btn.btn-disabled {
+    background: rgba(255, 255, 255, 0.06);
+    color: var(--text-muted);
+    box-shadow: none;
+    cursor: not-allowed;
+    border-color: var(--border-color);
+}
+
+.btn.btn-disabled:hover {
+    transform: none;
+    box-shadow: none;
+    color: var(--text-muted);
+}
+
+/* ===== TOAST ===== */
+.toast {
+    position: fixed;
+    left: 50%;
+    bottom: 28px;
+    transform: translate(-50%, 20px);
+    background: rgba(13, 17, 23, 0.92);
+    color: var(--text-main);
+    border: 1px solid var(--border-color);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    padding: 12px 18px;
+    border-radius: var(--radius-sm);
+    font-size: 0.9rem;
+    font-weight: 500;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(0, 191, 255, 0.12);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .2s ease, transform .2s ease;
+    z-index: 1000;
+    max-width: calc(100vw - 32px);
+    text-align: center;
+}
+
+.toast.visible {
+    opacity: 1;
+    transform: translate(-50%, 0);
 }

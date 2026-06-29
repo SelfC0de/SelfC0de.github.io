@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>H2Ray — Интернет без границ. На твоих условиях.</title>
     <link rel="icon" type="image/png" href="./H2Ray_logo.png">
-    <link rel="stylesheet" href="./style.css?v=2">
+    <link rel="stylesheet" href="./style.css?v=3">
 </head>
 <body>
 
@@ -81,7 +81,12 @@
 
     </div>
 
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
     <script>
+        const MAINTENANCE_MESSAGE = 'Приложение в разработке, ожидайте доступа к скачиванию';
+        let isMaintenance = false;
+
         function switchTab(e, tabId) {
             document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
             document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
@@ -98,6 +103,46 @@
                 .replace(/'/g, '&#39;');
         }
 
+        function formatDate(input) {
+            if (!input) return '';
+            const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(String(input).trim());
+            if (!m) return input;
+            return `${m[3]}.${m[2]}.${m[1]}`;
+        }
+
+        let toastTimer = null;
+        function showToast(message) {
+            const t = document.getElementById('toast');
+            t.textContent = message;
+            t.classList.add('visible');
+            if (toastTimer) clearTimeout(toastTimer);
+            toastTimer = setTimeout(() => t.classList.remove('visible'), 2800);
+        }
+
+        function renderChangelog(releases) {
+            const container = document.getElementById('changelog-container');
+            container.innerHTML = '';
+            (releases || []).forEach(item => {
+                const versionBox = document.createElement('div');
+                versionBox.className = 'changelog-version-box' + (item.isCurrent ? ' current-release' : '');
+                const changesList = (item.changes || []).map(c => `<li>${escapeHtml(c)}</li>`).join('');
+                const currentBadge = item.isCurrent ? '<span class="current-badge">Текущая</span>' : '';
+
+                versionBox.innerHTML = `
+                    <div class="changelog-header-inline">
+                        <div class="version-meta">
+                            <span class="version-tag">${escapeHtml(item.version || '')}</span>
+                            ${currentBadge}
+                        </div>
+                        <span class="version-date-inline">${escapeHtml(formatDate(item.date))}</span>
+                    </div>
+                    <h4 class="version-title-inline">${escapeHtml(item.title || '')}</h4>
+                    <ul class="version-changes-list">${changesList}</ul>
+                `;
+                container.appendChild(versionBox);
+            });
+        }
+
         async function loadLocalChangelog() {
             const container = document.getElementById('changelog-container');
             try {
@@ -105,30 +150,36 @@
                 if (!response.ok) throw new Error('HTTP ' + response.status);
                 const data = await response.json();
 
-                container.innerHTML = '';
+                // Поддержка двух форматов: массив (старый) и объект (новый)
+                let releases = [];
+                if (Array.isArray(data)) {
+                    releases = data;
+                } else if (data && typeof data === 'object') {
+                    releases = data.releases || [];
+                    if (data.maintenance === true) {
+                        isMaintenance = true;
+                        applyMaintenanceMode();
+                    }
+                }
 
-                data.forEach(item => {
-                    const versionBox = document.createElement('div');
-                    versionBox.className = 'changelog-version-box' + (item.isCurrent ? ' current-release' : '');
-                    const changesList = (item.changes || []).map(c => `<li>${escapeHtml(c)}</li>`).join('');
-
-                    versionBox.innerHTML = `
-                        <div class="changelog-header-inline">
-                            <span class="version-tag">${escapeHtml(item.version || '')}</span>
-                            <span class="version-date-inline">${escapeHtml(item.date || '')}</span>
-                        </div>
-                        <h4 class="version-title-inline">${escapeHtml(item.title || '')}</h4>
-                        <ul class="version-changes-list">${changesList}</ul>
-                    `;
-                    container.appendChild(versionBox);
-                });
+                renderChangelog(releases);
             } catch (error) {
                 console.error('Changelog load error:', error);
                 container.innerHTML = '<p style="color: var(--text-muted)">Ошибка загрузки истории изменений.</p>';
             }
         }
 
+        function applyMaintenanceMode() {
+            const btn = document.getElementById('download-btn');
+            btn.classList.add('btn-disabled');
+            btn.setAttribute('aria-disabled', 'true');
+            const info = document.getElementById('version-info');
+            info.innerText = 'В разработке';
+        }
+
         async function fetchGitHubLink() {
+            if (isMaintenance) return;
+
             const repo = 'SelfC0de/H2Ray';
             const btn = document.getElementById('download-btn');
             try {
@@ -152,16 +203,25 @@
 
         function setupDownloadButton() {
             const btn = document.getElementById('download-btn');
+
             btn.addEventListener('click', () => {
+                if (isMaintenance) {
+                    showToast(MAINTENANCE_MESSAGE);
+                    return;
+                }
                 const url = btn.dataset.href;
                 if (url) window.open(url, '_blank', 'noopener');
+            });
+
+            btn.addEventListener('mouseenter', () => {
+                if (isMaintenance) showToast(MAINTENANCE_MESSAGE);
             });
         }
 
         document.addEventListener('DOMContentLoaded', () => {
             setupDownloadButton();
-            fetchGitHubLink();
-            loadLocalChangelog();
+            // Сначала changelog: он может включить maintenance до запроса к GitHub
+            loadLocalChangelog().then(() => fetchGitHubLink());
         });
     </script>
 </body>
