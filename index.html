@@ -8,6 +8,7 @@
 </head>
 <body>
 
+    <!-- Шапка сайта -->
     <header class="header">
         <div class="container header-container">
             <div class="logo-block">
@@ -22,6 +23,7 @@
         </div>
     </header>
 
+    <!-- Главный экран (Hero Section) -->
     <section class="hero">
         <div class="container hero-container">
             <h1 class="hero-title">Интернет без границ.<br><span>На твоих условиях.</span></h1>
@@ -33,6 +35,7 @@
         </div>
     </section>
 
+    <!-- Блок преимуществ -->
     <section id="features" class="features">
         <div class="container">
             <h2 class="section-title">Почему H2Ray?</h2>
@@ -56,27 +59,28 @@
         </div>
     </section>
 
+    <!-- Блок обновлений (Changelog) -->
     <section id="changelog" class="changelog">
         <div class="container">
             <h2 class="section-title">История обновлений</h2>
             <div class="changelog-wrapper">
                 
+                <!-- Актуальная версия -->
                 <div class="changelog-item current">
                     <div class="changelog-meta">
-                        <span class="version-badge">v1.0.0</span>
-                        <span class="changelog-date">Сегодня</span>
+                        <!-- Добавлен id для динамического обновления тега -->
+                        <span class="version-badge" id="changelog-badge">v1.0.0</span>
+                        <span class="changelog-date">Актуальная</span>
                     </div>
                     <div class="changelog-content">
-                        <h3>Релиз первой публичной версии</h3>
-                        <ul>
-                            <li>Реализована базовая поддержка современных протоколов обхода блокировок.</li>
-                            <li>Добавлена система динамического переключения узлов.</li>
-                            <li>Оптимизировано потребление оперативной памяти под нагрузкой.</li>
-                            <li>Исправлены мелкие ошибки интерфейса и повышена стабильность ядра.</li>
+                        <h3 id="changelog-title">Загрузка лога обновлений...</h3>
+                        <ul id="changelog-list">
+                            <li>Получение данных с GitHub репозитория...</li>
                         </ul>
                     </div>
                 </div>
 
+                <!-- Шаблон для будущих версий -->
                 <div class="changelog-item">
                     <div class="changelog-meta">
                         <span class="version-badge beta">Beta</span>
@@ -95,22 +99,93 @@
         </div>
     </section>
 
+    <!-- Блок загрузки (CTA) -->
     <section id="download" class="download-section">
         <div class="container download-container">
             <h2>Готов вернуть свободу?</h2>
             <p>Скачай актуальную сборку H2Ray прямо сейчас и забудь про ограничения.</p>
             <div class="download-box">
-                <a href="https://github.com/SelfC0de/H2Ray/releases" target="_blank" class="btn btn-primary btn-large">Скачать APK-файл</a>
-                <span class="version-info">Текущая стабильная версия: 1.0.0</span>
+                <!-- Ссылке и инфо-строке заданы уникальные id -->
+                <a href="https://github.com/SelfC0de/H2Ray/releases" id="download-btn" target="_blank" class="btn btn-primary btn-large">Скачать APK-файл</a>
+                <span class="version-info" id="version-info">Проверка актуальной версии...</span>
             </div>
         </div>
     </section>
 
+    <!-- Подвал -->
     <footer class="footer">
         <div class="container footer-container">
             <p>&copy; 2026 H2Ray. Все права защищены. Разработано <a href="https://github.com/SelfC0de" target="_blank">SelfCode</a>.</p>
         </div>
     </footer>
+
+    <!-- Автоматизация GitHub Releases API -->
+    <script>
+        async function fetchLatestRelease() {
+            const repo = 'SelfC0de/H2Ray';
+            const apiUrl = `https://api.github.com/repos/${repo}/releases/latest`;
+            
+            try {
+                const response = await fetch(apiUrl);
+                if (!response.ok) throw new Error('Ошибка сети');
+                const data = await response.json();
+                
+                const version = data.tag_name; // Например, v1.2.3
+                const description = data.body;  // Описание релиза из маркдауна GitHub
+                
+                // Ищем прямую ссылку на первый .apk файл в ассетах релиза
+                let downloadUrl = `https://github.com/${repo}/releases/latest`;
+                if (data.assets && data.assets.length > 0) {
+                    const apkAsset = data.assets.find(asset => asset.name.endsWith('.apk'));
+                    if (apkAsset) {
+                        downloadUrl = apkAsset.browser_download_url;
+                    }
+                }
+
+                // 1. Обновляем кнопку и инфо-блок в секции скачивания
+                document.getElementById('download-btn').href = downloadUrl;
+                document.getElementById('version-info').innerText = `Текущая версия: ${version}`;
+                
+                // 2. Динамически обновляем Changelog данными из GitHub
+                document.getElementById('changelog-badge').innerText = version;
+                document.getElementById('changelog-title').innerText = data.name || `Релиз ${version}`;
+                
+                // Форматируем markdown-строки (если в описании использовались маркеры дефиса/звездочки)
+                const listContainer = document.getElementById('changelog-list');
+                if (description) {
+                    listContainer.innerHTML = ''; // Очищаем дефолтный текст
+                    const lines = description.split('\n');
+                    let lineCount = 0;
+                    
+                    lines.forEach(line => {
+                        const cleanLine = line.replace(/^[\s*\-]+/, '').trim();
+                        if (cleanLine && lineCount < 5) { // Ограничим до 5 ключевых пунктов
+                            const li = document.createElement('li');
+                            li.innerText = cleanLine;
+                            listContainer.appendChild(li);
+                            lineCount++;
+                        }
+                    });
+                    
+                    if (lineCount === 0) {
+                        listContainer.innerHTML = '<li>Стабильный релиз. Подробности изменений доступны в репозитории.</li>';
+                    }
+                } else {
+                    listContainer.innerHTML = '<li>Стабильный релиз. Описание изменений отсутствует.</li>';
+                }
+
+            } catch (error) {
+                console.error('Не удалось загрузить данные релизов:', error);
+                // Фолбэк на случай ошибок (например, превышен лимит запросов к API)
+                document.getElementById('version-info').innerText = 'Релизы доступны на GitHub';
+                document.getElementById('changelog-title').innerText = 'Актуальный релиз';
+                document.getElementById('changelog-list').innerHTML = '<li>Подробный лог изменений доступен на странице релизов GitHub.</li>';
+            }
+        }
+
+        // Запуск при загрузке страницы
+        document.addEventListener('DOMContentLoaded', fetchLatestRelease);
+    </script>
 
 </body>
 </html>
