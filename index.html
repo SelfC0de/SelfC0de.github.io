@@ -2,190 +2,158 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>H2Ray — Интернет без границ. На твоих условиях.</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <!-- Шапка сайта -->
-    <header class="header">
-        <div class="container header-container">
+    <div class="app-container">
+        
+        <!-- Верхняя панель / Шапка -->
+        <header class="app-header">
             <div class="logo-block">
                 <img src="H2Ray_logo.png" alt="H2Ray Logo" class="logo-img">
-                <span class="logo-text">H2Ray</span>
-            </div>
-            <nav class="nav">
-                <a href="#features" class="nav-link">Преимущества</a>
-                <a href="#changelog" class="nav-link">Changelog</a>
-                <a href="#download" class="btn btn-secondary">Скачать</a>
-            </nav>
-        </div>
-    </header>
-
-    <!-- Главный экран (Hero Section) -->
-    <section class="hero">
-        <div class="container hero-container">
-            <h1 class="hero-title">Интернет без границ.<br><span>На твоих условиях.</span></h1>
-            <p class="hero-subtitle">H2Ray — приватный VPN-клиент для Android с поддержкой VLESS, Reality и Trojan. Без логов, без рекламы, без компромиссов.</p>
-            <div class="hero-actions">
-                <a href="#download" class="btn btn-primary">Получить H2Ray</a>
-                <a href="https://github.com/SelfC0de/H2Ray" target="_blank" class="btn btn-outline">GitHub Репозиторий</a>
-            </div>
-        </div>
-    </section>
-
-    <!-- Блок преимуществ -->
-    <section id="features" class="features">
-        <div class="container">
-            <h2 class="section-title">Почему H2Ray?</h2>
-            <div class="features-grid">
-                <div class="feature-card">
-                    <div class="feature-icon">⚡</div>
-                    <h3>Максимальная скорость</h3>
-                    <p>Оптимизированные протоколы обеспечивают минимальный пинг и стабильное соединение без просадок.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">🛡️</div>
-                    <h3>Полная невидимость</h3>
-                    <p>Эффективно обходит системы глубокого анализа пакетов (DPI), маскируя ваш трафик под обычный веб-серфинг.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">⚙️</div>
-                    <h3>Легковесность</h3>
-                    <p>Никакого лишнего мусора в коде. Клиент работает плавно, не нагружая систему и процессор.</p>
+                <div class="logo-meta">
+                    <span class="logo-text">H2Ray</span>
+                    <span class="version-status" id="version-badge">v1.0.0</span>
                 </div>
             </div>
-        </div>
-    </section>
+            <a href="https://github.com/SelfC0de/H2Ray" target="_blank" class="github-link">
+                <svg viewBox="0 0 24 24" width="24" height="24"><path fill="currentColor" d="M12 2A10 10 0 0 0 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.9-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.9 1.52 2.34 1.07 2.91.83.1-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.94 0-1.1.38-1.99 1.03-2.69-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.7 1.03 1.6 1.03 2.69 0 3.84-2.34 4.68-4.57 4.93.36.31.68.92.68 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2z"/></svg>
+            </a>
+        </header>
 
-    <!-- Блок обновлений (Changelog) -->
-    <section id="changelog" class="changelog">
-        <div class="container">
-            <h2 class="section-title">История обновлений</h2>
-            <div class="changelog-wrapper">
+        <!-- Основной контент (Центральная панель) -->
+        <main class="app-main">
+            
+            <!-- Левая панель: Инфо и Главное действие -->
+            <div class="main-panel">
+                <h1 class="main-title">Интернет без границ.<br><span>На твоих условиях.</span></h1>
+                <p class="main-subtitle">Приватный VPN-клиент для Android с поддержкой VLESS, Reality и Trojan. Без логов, без рекламы, без компромиссов.</p>
                 
-                <!-- Актуальная версия -->
-                <div class="changelog-item current">
-                    <div class="changelog-meta">
-                        <!-- Добавлен id для динамического обновления тега -->
-                        <span class="version-badge" id="changelog-badge">v1.0.0</span>
-                        <span class="changelog-date">Актуальная</span>
-                    </div>
-                    <div class="changelog-content">
-                        <h3 id="changelog-title">Загрузка лога обновлений...</h3>
-                        <ul id="changelog-list">
-                            <li>Получение данных с GitHub репозитория...</li>
-                        </ul>
-                    </div>
+                <div class="cta-box">
+                    <a href="https://github.com/SelfC0de/H2Ray/releases" id="download-btn" target="_blank" class="btn btn-primary">Скачать APK-файл</a>
+                    <span class="version-info" id="version-info">Проверка актуальной версии...</span>
+                </div>
+            </div>
+
+            <!-- Правая панель: Переключаемые вкладки (Преимущества / Обновления) -->
+            <div class="side-panel">
+                <div class="tab-nav">
+                    <button class="tab-btn active" onclick="switchTab('features')">О клиенте</button>
+                    <button class="tab-btn" onclick="switchTab('changelog')">Changelog</button>
                 </div>
 
-                <!-- Шаблон для будущих версий -->
-                <div class="changelog-item">
-                    <div class="changelog-meta">
-                        <span class="version-badge beta">Beta</span>
-                        <span class="changelog-date">Скоро</span>
+                <div class="tab-content-wrapper">
+                    <!-- Вкладка: Преимущества -->
+                    <div id="features" class="tab-content active">
+                        <div class="info-card">
+                            <div class="card-icon">⚡</div>
+                            <div class="card-text">
+                                <h3>Максимальная скорость</h3>
+                                <p>Оптимизированные протоколы обеспечивают минимальный пинг и стабильное соединение без просадок.</p>
+                            </div>
+                        </div>
+                        <div class="info-card">
+                            <div class="card-icon">🛡️</div>
+                            <div class="card-text">
+                                <h3>Полная невидимость</h3>
+                                <p>Эффективно обходит системы глубокого анализа пакетов (DPI), маскируя трафик под обычный веб-серфинг.</p>
+                            </div>
+                        </div>
+                        <div class="info-card">
+                            <div class="card-icon">⚙️</div>
+                            <div class="card-text">
+                                <h3>Легковесность</h3>
+                                <p>Никакого лишнего мусора в коде. Клиент работает плавно, не нагружая процессор девайса.</p>
+                            </div>
+                        </div>
                     </div>
-                    <div class="changelog-content">
-                        <h3>Планируемые улучшения</h3>
-                        <ul>
-                            <li>Добавление встроенного теста скорости узлов.</li>
-                            <li>Расширенное логирование для отладки сложных подключений.</li>
-                        </ul>
+
+                    <!-- Вкладка: Лог обновлений -->
+                    <div id="changelog" class="tab-content">
+                        <div class="changelog-box">
+                            <h3 id="changelog-title">Загрузка релизов...</h3>
+                            <ul class="changelog-list" id="changelog-list">
+                                <li>Получение данных с GitHub репозитория...</li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
-
             </div>
-        </div>
-    </section>
 
-    <!-- Блок загрузки (CTA) -->
-    <section id="download" class="download-section">
-        <div class="container download-container">
-            <h2>Готов вернуть свободу?</h2>
-            <p>Скачай актуальную сборку H2Ray прямо сейчас и забудь про ограничения.</p>
-            <div class="download-box">
-                <!-- Ссылке и инфо-строке заданы уникальные id -->
-                <a href="https://github.com/SelfC0de/H2Ray/releases" id="download-btn" target="_blank" class="btn btn-primary btn-large">Скачать APK-файл</a>
-                <span class="version-info" id="version-info">Проверка актуальной версии...</span>
-            </div>
-        </div>
-    </section>
+        </main>
 
-    <!-- Подвал -->
-    <footer class="footer">
-        <div class="container footer-container">
-            <p>&copy; 2026 H2Ray. Все права защищены. Разработано <a href="https://github.com/SelfC0de" target="_blank">SelfCode</a>.</p>
-        </div>
-    </footer>
+        <!-- Подвал -->
+        <footer class="app-footer">
+            <p>&copy; 2026 H2Ray. Разработано <a href="https://github.com/SelfC0de" target="_blank">SelfCode</a>.</p>
+        </footer>
 
-    <!-- Автоматизация GitHub Releases API -->
+    </div>
+
+    <!-- Логика вкладок и GitHub API -->
     <script>
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+            
+            event.currentTarget.classList.add('active');
+            document.getElementById(tabId).classList.add('active');
+        }
+
         async function fetchLatestRelease() {
             const repo = 'SelfC0de/H2Ray';
             const apiUrl = `https://api.github.com/repos/${repo}/releases/latest`;
             
             try {
                 const response = await fetch(apiUrl);
-                if (!response.ok) throw new Error('Ошибка сети');
+                if (!response.ok) throw new Error('Network error');
                 const data = await response.json();
                 
-                const version = data.tag_name; // Например, v1.2.3
-                const description = data.body;  // Описание релиза из маркдауна GitHub
+                const version = data.tag_name;
+                const description = data.body;
                 
-                // Ищем прямую ссылку на первый .apk файл в ассетах релиза
                 let downloadUrl = `https://github.com/${repo}/releases/latest`;
                 if (data.assets && data.assets.length > 0) {
                     const apkAsset = data.assets.find(asset => asset.name.endsWith('.apk'));
-                    if (apkAsset) {
-                        downloadUrl = apkAsset.browser_download_url;
-                    }
+                    if (apkAsset) downloadUrl = apkAsset.browser_download_url;
                 }
 
-                // 1. Обновляем кнопку и инфо-блок в секции скачивания
                 document.getElementById('download-btn').href = downloadUrl;
                 document.getElementById('version-info').innerText = `Текущая версия: ${version}`;
-                
-                // 2. Динамически обновляем Changelog данными из GitHub
-                document.getElementById('changelog-badge').innerText = version;
+                document.getElementById('version-badge').innerText = version;
                 document.getElementById('changelog-title').innerText = data.name || `Релиз ${version}`;
                 
-                // Форматируем markdown-строки (если в описании использовались маркеры дефиса/звездочки)
                 const listContainer = document.getElementById('changelog-list');
                 if (description) {
-                    listContainer.innerHTML = ''; // Очищаем дефолтный текст
+                    listContainer.innerHTML = '';
                     const lines = description.split('\n');
                     let lineCount = 0;
                     
                     lines.forEach(line => {
                         const cleanLine = line.replace(/^[\s*\-]+/, '').trim();
-                        if (cleanLine && lineCount < 5) { // Ограничим до 5 ключевых пунктов
+                        if (cleanLine && lineCount < 4) {
                             const li = document.createElement('li');
                             li.innerText = cleanLine;
                             listContainer.appendChild(li);
                             lineCount++;
                         }
                     });
-                    
-                    if (lineCount === 0) {
-                        listContainer.innerHTML = '<li>Стабильный релиз. Подробности изменений доступны в репозитории.</li>';
-                    }
+                    if (lineCount === 0) listContainer.innerHTML = '<li>Стабильный релиз. Изменения опубликованы на GitHub.</li>';
                 } else {
-                    listContainer.innerHTML = '<li>Стабильный релиз. Описание изменений отсутствует.</li>';
+                    listContainer.innerHTML = '<li>Стабильный релиз без описания.</li>';
                 }
 
             } catch (error) {
-                console.error('Не удалось загрузить данные релизов:', error);
-                // Фолбэк на случай ошибок (например, превышен лимит запросов к API)
+                console.error(error);
                 document.getElementById('version-info').innerText = 'Релизы доступны на GitHub';
                 document.getElementById('changelog-title').innerText = 'Актуальный релиз';
-                document.getElementById('changelog-list').innerHTML = '<li>Подробный лог изменений доступен на странице релизов GitHub.</li>';
+                document.getElementById('changelog-list').innerHTML = '<li>Смотрите подробный лог изменений напрямую в репозитории проекта.</li>';
             }
         }
 
-        // Запуск при загрузке страницы
         document.addEventListener('DOMContentLoaded', fetchLatestRelease);
     </script>
-
 </body>
 </html>

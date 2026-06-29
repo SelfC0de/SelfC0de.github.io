@@ -1,14 +1,13 @@
-/* Общие настройки и переменные (Премиальная темная палитра на основе логотипа) */
 :root {
-    --bg-main: #0a0c10;
-    --bg-card: #11141a;
-    --bg-card-hover: #161b24;
-    --accent: #00bfff; /* Глубокий голубой под цвет лого */
-    --accent-glow: rgba(0, 191, 255, 0.3);
-    --text-main: #f0f3f5;
-    --text-muted: #8a99a8;
-    --border-color: #1f2633;
-    --font-stack: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    --bg-main: #07090e;
+    --bg-app: #0e121a;
+    --bg-card: #151a24;
+    --accent: #00bfff;
+    --accent-glow: rgba(0, 191, 255, 0.25);
+    --text-main: #f0f4f8;
+    --text-muted: #7e8f9f;
+    --border-color: #222b3c;
+    --font-stack: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 }
 
 * {
@@ -17,408 +16,312 @@
     padding: 0;
 }
 
-html {
-    scroll-behavior: smooth;
+html, body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden; /* Полный запрет глобального скролла */
     font-family: var(--font-stack);
     background-color: var(--bg-main);
     color: var(--text-main);
 }
 
 body {
-    overflow-x: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
 }
 
-.container {
+/* Контейнер-приложение (фиксированные габариты на ПК) */
+.app-container {
     width: 100%;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 20px;
-}
-
-/* Кнопки */
-.btn {
-    display: inline-block;
-    text-decoration: none;
-    padding: 12px 24px;
-    border-radius: 8px;
-    font-weight: 600;
-    font-size: 0.95rem;
-    transition: all 0.25s ease;
-    cursor: pointer;
-}
-
-.btn-primary {
-    background-color: var(--accent);
-    color: #000;
-    box-shadow: 0 4px 15px var(--accent-glow);
-}
-
-.btn-primary:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(0, 191, 255, 0.5);
-}
-
-.btn-secondary {
-    background: var(--bg-card);
-    color: var(--text-main);
+    max-width: 1100px;
+    height: 100%;
+    max-height: 650px;
+    background: var(--bg-app);
     border: 1px solid var(--border-color);
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 30px 70px rgba(0,0,0,0.6);
+    background: radial-gradient(circle at top left, rgba(0, 191, 255, 0.04) 0%, transparent 40%), var(--bg-app);
 }
 
-.btn-secondary:hover {
-    background: var(--border-color);
-    border-color: var(--accent);
-}
-
-.btn-outline {
-    background: transparent;
-    color: var(--text-main);
-    border: 1px solid var(--border-color);
-}
-
-.btn-outline:hover {
-    background: rgba(255, 255, 255, 0.03);
-    border-color: var(--text-muted);
-}
-
-/* Шапка сайта */
-.header {
-    background: rgba(10, 12, 16, 0.8);
-    backdrop-filter: blur(12px);
-    border-bottom: 1px solid var(--border-color);
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    z-index: 100;
-}
-
-.header-container {
+/* Шапка */
+.app-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    height: 70px;
+    padding: 20px 30px;
+    border-bottom: 1px solid var(--border-color);
 }
 
 .logo-block {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 14px;
 }
 
 .logo-img {
-    width: 36px;
-    height: 36px;
-    border-radius: 8px;
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+}
+
+.logo-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
 }
 
 .logo-text {
-    font-size: 1.3rem;
+    font-size: 1.25rem;
     font-weight: 700;
     letter-spacing: 0.5px;
 }
 
-.nav {
-    display: flex;
-    align-items: center;
-    gap: 24px;
-}
-
-.nav-link {
-    color: var(--text-muted);
-    text-decoration: none;
-    font-size: 0.95rem;
-    transition: color 0.2s ease;
-}
-
-.nav-link:hover {
+.version-status {
+    font-size: 0.75rem;
     color: var(--accent);
+    font-weight: 600;
+    background: rgba(0, 191, 255, 0.1);
+    padding: 1px 6px;
+    border-radius: 4px;
+    width: max-content;
 }
 
-/* Главный экран */
-.hero {
-    padding: 160px 0 100px 0;
-    text-align: center;
-    background: radial-gradient(circle at top, rgba(0, 191, 255, 0.07) 0%, transparent 60%);
-}
-
-.hero-title {
-    font-size: 3.5rem;
-    font-weight: 800;
-    line-height: 1.2;
-    margin-bottom: 20px;
-    max-width: 800px;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-.hero-title span {
-    color: var(--accent);
-    text-shadow: 0 0 20px var(--accent-glow);
-}
-
-.hero-subtitle {
-    font-size: 1.25rem;
+.github-link {
     color: var(--text-muted);
-    max-width: 600px;
-    margin: 0 auto 40px auto;
-    line-height: 1.6;
+    transition: color 0.2s;
 }
 
-.hero-actions {
-    display: flex;
-    justify-content: center;
-    gap: 16px;
-}
-
-/* Разделы общего назначения */
-.section-title {
-    text-align: center;
-    font-size: 2.2rem;
-    font-weight: 700;
-    margin-bottom: 50px;
-}
-
-/* Преимущества */
-.features {
-    padding: 80px 0;
-}
-
-.features-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 24px;
-}
-
-.feature-card {
-    background: var(--bg-card);
-    border: 1px solid var(--border-color);
-    padding: 35px;
-    border-radius: 12px;
-    transition: all 0.3s ease;
-}
-
-.feature-card:hover {
-    transform: translateY(-5px);
-    border-color: var(--accent);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-}
-
-.feature-icon {
-    font-size: 2rem;
-    margin-bottom: 20px;
-}
-
-.feature-card h3 {
-    font-size: 1.3rem;
-    margin-bottom: 12px;
-}
-
-.feature-card p {
-    color: var(--text-muted);
-    line-height: 1.6;
-    font-size: 0.95rem;
-}
-
-/* Changelog (Лог обновлений) */
-.changelog {
-    padding: 80px 0;
-    background: linear-gradient(180deg, transparent, rgba(17, 20, 26, 0.4), transparent);
-}
-
-.changelog-wrapper {
-    max-width: 800px;
-    margin: 0 auto;
-    border-left: 2px solid var(--border-color);
-    padding-left: 30px;
-    position: relative;
-}
-
-.changelog-item {
-    position: relative;
-    margin-bottom: 40px;
-}
-
-.changelog-item::before {
-    content: '';
-    position: absolute;
-    left: -41px;
-    top: 6px;
-    width: 16px;
-    height: 16px;
-    border-radius: 50%;
-    background: var(--bg-main);
-    border: 2px solid var(--border-color);
-    transition: all 0.3s ease;
-}
-
-.changelog-item.current::before {
-    border-color: var(--accent);
-    background: var(--accent);
-    box-shadow: 0 0 10px var(--accent);
-}
-
-.changelog-meta {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin-bottom: 12px;
-}
-
-.version-badge {
-    background: var(--border-color);
-    padding: 4px 10px;
-    border-radius: 6px;
-    font-size: 0.85rem;
-    font-weight: 700;
+.github-link:hover {
     color: var(--text-main);
 }
 
-.changelog-item.current .version-badge {
-    background: rgba(0, 191, 255, 0.15);
+/* Основная рабочая зона */
+.app-main {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    border-bottom: 1px solid var(--border-color);
+    overflow: hidden;
+}
+
+/* Левая панель */
+.main-panel {
+    padding: 45px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border-right: 1px solid var(--border-color);
+}
+
+.main-title {
+    font-size: 2.8rem;
+    font-weight: 800;
+    line-height: 1.2;
+    margin-bottom: 20px;
+}
+
+.main-title span {
     color: var(--accent);
-    border: 1px solid rgba(0, 191, 255, 0.3);
+    text-shadow: 0 0 25px var(--accent-glow);
 }
 
-.version-badge.beta {
-    background: rgba(235, 94, 40, 0.15);
-    color: #eb5e28;
-    border: 1px solid rgba(235, 94, 40, 0.3);
+.main-subtitle {
+    font-size: 1.1rem;
+    color: var(--text-muted);
+    line-height: 1.6;
+    margin-bottom: 40px;
 }
 
-.changelog-date {
+.cta-box {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: max-content;
+}
+
+.btn {
+    display: inline-block;
+    text-decoration: none;
+    padding: 16px 36px;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 1.05rem;
+    background-color: var(--accent);
+    color: #000;
+    box-shadow: 0 4px 20px var(--accent-glow);
+    transition: all 0.2s ease;
+    text-align: center;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 25px rgba(0, 191, 255, 0.45);
+}
+
+.version-info {
     font-size: 0.85rem;
     color: var(--text-muted);
+    text-align: center;
 }
 
-.changelog-content h3 {
-    font-size: 1.2rem;
-    margin-bottom: 10px;
+/* Правая панель с табами */
+.side-panel {
+    display: flex;
+    flex-direction: column;
+    background: rgba(0,0,0,0.15);
 }
 
-.changelog-content ul {
-    list-style-type: none;
+.tab-nav {
+    display: flex;
+    border-bottom: 1px solid var(--border-color);
 }
 
-.changelog-content li {
+.tab-btn {
+    flex: 1;
+    background: transparent;
+    border: none;
+    padding: 18px;
     color: var(--text-muted);
-    font-size: 0.95rem;
-    line-height: 1.6;
-    margin-bottom: 6px;
-    position: relative;
-    padding-left: 15px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
 }
 
-.changelog-content li::before {
+.tab-btn:hover {
+    color: var(--text-main);
+}
+
+.tab-btn.active {
+    color: var(--accent);
+    border-bottom: 2px solid var(--accent);
+    background: rgba(255,255,255,0.01);
+}
+
+.tab-content-wrapper {
+    flex: 1;
+    padding: 30px;
+    overflow-y: auto; /* Скролл только внутри правой вкладки, если контент не влезет */
+}
+
+.tab-content {
+    display: none;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.tab-content.active {
+    display: flex;
+}
+
+/* Элементы вкладок */
+.info-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    padding: 20px;
+    border-radius: 12px;
+    display: flex;
+    gap: 16px;
+}
+
+.card-icon {
+    font-size: 1.5rem;
+}
+
+.card-text h3 {
+    font-size: 1.05rem;
+    margin-bottom: 6px;
+}
+
+.card-text p {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    line-height: 1.5;
+}
+
+/* Оформление Changelog внутри таба */
+.changelog-box h3 {
+    font-size: 1.1rem;
+    margin-bottom: 15px;
+    color: var(--text-main);
+}
+
+.changelog-list {
+    list-style: none;
+}
+
+.changelog-list li {
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    line-height: 1.6;
+    margin-bottom: 10px;
+    position: relative;
+    padding-left: 18px;
+}
+
+.changelog-list li::before {
     content: "•";
     color: var(--accent);
     position: absolute;
     left: 0;
 }
 
-/* Секция Загрузки */
-.download-section {
-    padding: 100px 0;
-    text-align: center;
-}
-
-.download-container {
-    background: linear-gradient(135deg, var(--bg-card) 0%, #161b24 100%);
-    border: 1px solid var(--border-color);
-    padding: 60px 40px;
-    border-radius: 16px;
-    max-width: 900px;
-    margin: 0 auto;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.4);
-}
-
-.download-container h2 {
-    font-size: 2.2rem;
-    margin-bottom: 15px;
-}
-
-.download-container p {
-    color: var(--text-muted);
-    margin-bottom: 35px;
-    font-size: 1.1rem;
-}
-
-.download-box {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 12px;
-}
-
-.btn-large {
-    padding: 16px 40px;
-    font-size: 1.1rem;
-}
-
-.version-info {
+/* Подвал */
+.app-footer {
+    padding: 15px 30px;
     font-size: 0.85rem;
     color: var(--text-muted);
+    text-align: right;
 }
 
-/* Подвал */
-.footer {
-    border-top: 1px solid var(--border-color);
-    padding: 30px 0;
-    text-align: center;
-    font-size: 0.9rem;
-    color: var(--text-muted);
-}
-
-.footer a {
+.app-footer a {
     color: var(--text-main);
     text-decoration: none;
 }
 
-.footer a:hover {
-    color: var(--accent);
-}
-
-/* 📱 Мобильная адаптация */
+/* 📱 Адаптация под мобильные устройства (Экран разворачивается во весь рост) */
 @media (max-width: 768px) {
-    .header-container {
+    body {
+        padding: 0;
+    }
+
+    html, body {
+        overflow: auto; /* На телефонах разрешаем обычный просмотр, так как физически всё не влезет в один экран */
+    }
+
+    .app-container {
+        max-height: none;
         height: auto;
-        padding: 15px 20px;
-        flex-direction: column;
-        gap: 15px;
+        border-radius: 0;
+        border: none;
     }
 
-    .nav {
-        gap: 15px;
-        width: 100%;
-        justify-content: center;
+    .app-main {
+        grid-template-columns: 1fr;
     }
 
-    .hero {
-        padding: 180px 0 60px 0;
-    }
-
-    .hero-title {
-        font-size: 2.2rem;
-    }
-
-    .hero-subtitle {
-        font-size: 1rem;
-    }
-
-    .hero-actions {
-        flex-direction: column;
-        align-items: stretch;
-        padding: 0 20px;
-    }
-
-    .section-title {
-        font-size: 1.8rem;
-    }
-
-    .download-container {
+    .main-panel {
         padding: 40px 20px;
+        border-right: none;
+        border-bottom: 1px solid var(--border-color);
+        text-align: center;
+        align-items: center;
     }
 
-    .download-container h2 {
-        font-size: 1.7rem;
+    .main-title {
+        font-size: 2rem;
+    }
+
+    .cta-box {
+        width: 100%;
+        max-width: 320px;
+    }
+
+    .tab-content-wrapper {
+        padding: 20px;
     }
 }
