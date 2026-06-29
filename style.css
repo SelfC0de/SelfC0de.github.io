@@ -1,327 +1,70 @@
-:root {
-    --bg-main: #07090e;
-    --bg-app: #0e121a;
-    --bg-card: #151a24;
-    --accent: #00bfff;
-    --accent-glow: rgba(0, 191, 255, 0.25);
-    --text-main: #f0f4f8;
-    --text-muted: #7e8f9f;
-    --border-color: #222b3c;
-    --font-stack: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-}
-
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
-
-html, body {
-    width: 100%;
-    height: 100%;
-    overflow: hidden; /* Полный запрет глобального скролла */
-    font-family: var(--font-stack);
-    background-color: var(--bg-main);
-    color: var(--text-main);
-}
-
-body {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-}
-
-/* Контейнер-приложение (фиксированные габариты на ПК) */
-.app-container {
-    width: 100%;
-    max-width: 1100px;
-    height: 100%;
-    max-height: 650px;
-    background: var(--bg-app);
-    border: 1px solid var(--border-color);
-    border-radius: 20px;
+/* Новые стили для кастомного Changelog */
+.changelog-container-fluid {
     display: flex;
     flex-direction: column;
-    box-shadow: 0 30px 70px rgba(0,0,0,0.6);
-    background: radial-gradient(circle at top left, rgba(0, 191, 255, 0.04) 0%, transparent 40%), var(--bg-app);
+    gap: 24px;
 }
 
-/* Шапка */
-.app-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px 30px;
-    border-bottom: 1px solid var(--border-color);
-}
-
-.logo-block {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-}
-
-.logo-img {
-    width: 40px;
-    height: 40px;
-    border-radius: 10px;
-}
-
-.logo-meta {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-}
-
-.logo-text {
-    font-size: 1.25rem;
-    font-weight: 700;
-    letter-spacing: 0.5px;
-}
-
-.version-status {
-    font-size: 0.75rem;
-    color: var(--accent);
-    font-weight: 600;
-    background: rgba(0, 191, 255, 0.1);
-    padding: 1px 6px;
-    border-radius: 4px;
-    width: max-content;
-}
-
-.github-link {
-    color: var(--text-muted);
-    transition: color 0.2s;
-}
-
-.github-link:hover {
-    color: var(--text-main);
-}
-
-/* Основная рабочая зона */
-.app-main {
-    flex: 1;
-    display: grid;
-    grid-template-columns: 1.2fr 1fr;
-    border-bottom: 1px solid var(--border-color);
-    overflow: hidden;
-}
-
-/* Левая панель */
-.main-panel {
-    padding: 45px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    border-right: 1px solid var(--border-color);
-}
-
-.main-title {
-    font-size: 2.8rem;
-    font-weight: 800;
-    line-height: 1.2;
-    margin-bottom: 20px;
-}
-
-.main-title span {
-    color: var(--accent);
-    text-shadow: 0 0 25px var(--accent-glow);
-}
-
-.main-subtitle {
-    font-size: 1.1rem;
-    color: var(--text-muted);
-    line-height: 1.6;
-    margin-bottom: 40px;
-}
-
-.cta-box {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    width: max-content;
-}
-
-.btn {
-    display: inline-block;
-    text-decoration: none;
-    padding: 16px 36px;
-    border-radius: 10px;
-    font-weight: 600;
-    font-size: 1.05rem;
-    background-color: var(--accent);
-    color: #000;
-    box-shadow: 0 4px 20px var(--accent-glow);
-    transition: all 0.2s ease;
-    text-align: center;
-}
-
-.btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 25px rgba(0, 191, 255, 0.45);
-}
-
-.version-info {
-    font-size: 0.85rem;
-    color: var(--text-muted);
-    text-align: center;
-}
-
-/* Правая панель с табами */
-.side-panel {
-    display: flex;
-    flex-direction: column;
-    background: rgba(0,0,0,0.15);
-}
-
-.tab-nav {
-    display: flex;
-    border-bottom: 1px solid var(--border-color);
-}
-
-.tab-btn {
-    flex: 1;
-    background: transparent;
-    border: none;
-    padding: 18px;
-    color: var(--text-muted);
-    font-size: 1rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.2s;
-}
-
-.tab-btn:hover {
-    color: var(--text-main);
-}
-
-.tab-btn.active {
-    color: var(--accent);
-    border-bottom: 2px solid var(--accent);
-    background: rgba(255,255,255,0.01);
-}
-
-.tab-content-wrapper {
-    flex: 1;
-    padding: 30px;
-    overflow-y: auto; /* Скролл только внутри правой вкладки, если контент не влезет */
-}
-
-.tab-content {
-    display: none;
-    flex-direction: column;
-    gap: 16px;
-}
-
-.tab-content.active {
-    display: flex;
-}
-
-/* Элементы вкладок */
-.info-card {
-    background: var(--bg-card);
+.changelog-version-box {
+    background: rgba(255, 255, 255, 0.02);
     border: 1px solid var(--border-color);
     padding: 20px;
     border-radius: 12px;
+}
+
+.changelog-version-box.current-release {
+    border-color: rgba(0, 191, 255, 0.4);
+    background: linear-gradient(180deg, rgba(0, 191, 255, 0.02), transparent);
+}
+
+.changelog-header-inline {
     display: flex;
-    gap: 16px;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
 }
 
-.card-icon {
-    font-size: 1.5rem;
-}
-
-.card-text h3 {
-    font-size: 1.05rem;
-    margin-bottom: 6px;
-}
-
-.card-text p {
-    font-size: 0.9rem;
-    color: var(--text-muted);
-    line-height: 1.5;
-}
-
-/* Оформление Changelog внутри таба */
-.changelog-box h3 {
-    font-size: 1.1rem;
-    margin-bottom: 15px;
+.version-tag {
+    font-size: 0.85rem;
+    font-weight: 700;
+    padding: 3px 8px;
+    background: var(--border-color);
+    border-radius: 6px;
     color: var(--text-main);
 }
 
-.changelog-list {
+.current-release .version-tag {
+    background: rgba(0, 191, 255, 0.15);
+    color: var(--accent);
+}
+
+.version-date-inline {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
+.version-title-inline {
+    font-size: 1.1rem;
+    margin-bottom: 12px;
+    color: var(--text-main);
+}
+
+.version-changes-list {
     list-style: none;
 }
 
-.changelog-list li {
-    font-size: 0.95rem;
+.version-changes-list li {
+    font-size: 0.9rem;
     color: var(--text-muted);
-    line-height: 1.6;
-    margin-bottom: 10px;
+    line-height: 1.5;
+    margin-bottom: 8px;
     position: relative;
-    padding-left: 18px;
+    padding-left: 16px;
 }
 
-.changelog-list li::before {
+.version-changes-list li::before {
     content: "•";
     color: var(--accent);
     position: absolute;
     left: 0;
-}
-
-/* Подвал */
-.app-footer {
-    padding: 15px 30px;
-    font-size: 0.85rem;
-    color: var(--text-muted);
-    text-align: right;
-}
-
-.app-footer a {
-    color: var(--text-main);
-    text-decoration: none;
-}
-
-/* 📱 Адаптация под мобильные устройства (Экран разворачивается во весь рост) */
-@media (max-width: 768px) {
-    body {
-        padding: 0;
-    }
-
-    html, body {
-        overflow: auto; /* На телефонах разрешаем обычный просмотр, так как физически всё не влезет в один экран */
-    }
-
-    .app-container {
-        max-height: none;
-        height: auto;
-        border-radius: 0;
-        border: none;
-    }
-
-    .app-main {
-        grid-template-columns: 1fr;
-    }
-
-    .main-panel {
-        padding: 40px 20px;
-        border-right: none;
-        border-bottom: 1px solid var(--border-color);
-        text-align: center;
-        align-items: center;
-    }
-
-    .main-title {
-        font-size: 2rem;
-    }
-
-    .cta-box {
-        width: 100%;
-        max-width: 320px;
-    }
-
-    .tab-content-wrapper {
-        padding: 20px;
-    }
 }

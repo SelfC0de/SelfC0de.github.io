@@ -10,7 +10,6 @@
 
     <div class="app-container">
         
-        <!-- Верхняя панель / Шапка -->
         <header class="app-header">
             <div class="logo-block">
                 <img src="H2Ray_logo.png" alt="H2Ray Logo" class="logo-img">
@@ -24,21 +23,18 @@
             </a>
         </header>
 
-        <!-- Основной контент (Центральная панель) -->
         <main class="app-main">
             
-            <!-- Левая панель: Инфо и Главное действие -->
             <div class="main-panel">
                 <h1 class="main-title">Интернет без границ.<br><span>На твоих условиях.</span></h1>
                 <p class="main-subtitle">Приватный VPN-клиент для Android с поддержкой VLESS, Reality и Trojan. Без логов, без рекламы, без компромиссов.</p>
                 
                 <div class="cta-box">
                     <a href="https://github.com/SelfC0de/H2Ray/releases" id="download-btn" target="_blank" class="btn btn-primary">Скачать APK-файл</a>
-                    <span class="version-info" id="version-info">Проверка актуальной версии...</span>
+                    <span class="version-info" id="version-info">Проверка версии...</span>
                 </div>
             </div>
 
-            <!-- Правая панель: Переключаемые вкладки (Преимущества / Обновления) -->
             <div class="side-panel">
                 <div class="tab-nav">
                     <button class="tab-btn active" onclick="switchTab('features')">О клиенте</button>
@@ -46,7 +42,6 @@
                 </div>
 
                 <div class="tab-content-wrapper">
-                    <!-- Вкладка: Преимущества -->
                     <div id="features" class="tab-content active">
                         <div class="info-card">
                             <div class="card-icon">⚡</div>
@@ -71,29 +66,23 @@
                         </div>
                     </div>
 
-                    <!-- Вкладка: Лог обновлений -->
                     <div id="changelog" class="tab-content">
-                        <div class="changelog-box">
-                            <h3 id="changelog-title">Загрузка релизов...</h3>
-                            <ul class="changelog-list" id="changelog-list">
-                                <li>Получение данных с GitHub репозитория...</li>
-                            </ul>
-                        </div>
+                        <div class="changelog-container-fluid" id="changelog-container">
+                            </div>
                     </div>
                 </div>
             </div>
 
         </main>
 
-        <!-- Подвал -->
         <footer class="app-footer">
             <p>&copy; 2026 H2Ray. Разработано <a href="https://github.com/SelfC0de" target="_blank">SelfCode</a>.</p>
         </footer>
 
     </div>
 
-    <!-- Логика вкладок и GitHub API -->
     <script>
+        // Логика вкладок
         function switchTab(tabId) {
             document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
             document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
@@ -102,17 +91,47 @@
             document.getElementById(tabId).classList.add('active');
         }
 
-        async function fetchLatestRelease() {
-            const repo = 'SelfC0de/H2Ray';
-            const apiUrl = `https://api.github.com/repos/${repo}/releases/latest`;
-            
+        // Загрузка твоего кастомного Changelog.json
+        async function loadLocalChangelog() {
             try {
-                const response = await fetch(apiUrl);
-                if (!response.ok) throw new Error('Network error');
+                const response = await fetch('changelog.json');
+                if (!response.ok) throw new Error('Не удалось загрузить changelog.json');
                 const data = await response.json();
                 
-                const version = data.tag_name;
-                const description = data.body;
+                const container = document.getElementById('changelog-container');
+                container.innerHTML = ''; // Очищаем лоадер
+
+                data.forEach(item => {
+                    // Создаем обертку для версии
+                    const versionBox = document.createElement('div');
+                    versionBox.className = `changelog-version-box ${item.isCurrent ? 'current-release' : ''}`;
+
+                    // Содержимое списка изменений
+                    const changesList = item.changes.map(change => `<li>${change}</li>`).join('');
+
+                    versionBox.innerHTML = `
+                        <div class="changelog-header-inline">
+                            <span class="version-tag">${item.version}</span>
+                            <span class="version-date-inline">${item.date}</span>
+                        </div>
+                        <h4 class="version-title-inline">${item.title}</h4>
+                        <ul class="version-changes-list">${changesList}</ul>
+                    `;
+                    container.appendChild(versionBox);
+                });
+            } catch (error) {
+                console.error(error);
+                document.getElementById('changelog-container').innerHTML = '<p style="color: var(--text-muted)">Ошибка загрузки истории изменений.</p>';
+            }
+        }
+
+        // Загрузка ссылки на APK из GitHub API
+        async function fetchGitHubLink() {
+            const repo = 'SelfC0de/H2Ray';
+            try {
+                const response = await fetch(`https://api.github.com/repos/${repo}/releases/latest`);
+                if (!response.ok) throw new Error();
+                const data = await response.json();
                 
                 let downloadUrl = `https://github.com/${repo}/releases/latest`;
                 if (data.assets && data.assets.length > 0) {
@@ -121,39 +140,18 @@
                 }
 
                 document.getElementById('download-btn').href = downloadUrl;
-                document.getElementById('version-info').innerText = `Текущая версия: ${version}`;
-                document.getElementById('version-badge').innerText = version;
-                document.getElementById('changelog-title').innerText = data.name || `Релиз ${version}`;
-                
-                const listContainer = document.getElementById('changelog-list');
-                if (description) {
-                    listContainer.innerHTML = '';
-                    const lines = description.split('\n');
-                    let lineCount = 0;
-                    
-                    lines.forEach(line => {
-                        const cleanLine = line.replace(/^[\s*\-]+/, '').trim();
-                        if (cleanLine && lineCount < 4) {
-                            const li = document.createElement('li');
-                            li.innerText = cleanLine;
-                            listContainer.appendChild(li);
-                            lineCount++;
-                        }
-                    });
-                    if (lineCount === 0) listContainer.innerHTML = '<li>Стабильный релиз. Изменения опубликованы на GitHub.</li>';
-                } else {
-                    listContainer.innerHTML = '<li>Стабильный релиз без описания.</li>';
-                }
-
-            } catch (error) {
-                console.error(error);
+                document.getElementById('version-info').innerText = `Текущая версия: ${data.tag_name}`;
+                document.getElementById('version-badge').innerText = data.tag_name;
+            } catch (e) {
                 document.getElementById('version-info').innerText = 'Релизы доступны на GitHub';
-                document.getElementById('changelog-title').innerText = 'Актуальный релиз';
-                document.getElementById('changelog-list').innerHTML = '<li>Смотрите подробный лог изменений напрямую в репозитории проекта.</li>';
             }
         }
 
-        document.addEventListener('DOMContentLoaded', fetchLatestRelease);
+        // Инициализация
+        document.addEventListener('DOMContentLoaded', () => {
+            fetchGitHubLink();
+            loadLocalChangelog();
+        });
     </script>
 </body>
 </html>
