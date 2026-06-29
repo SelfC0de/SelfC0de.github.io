@@ -1,0 +1,424 @@
+/* Общие настройки и переменные (Премиальная темная палитра на основе логотипа) */
+:root {
+    --bg-main: #0a0c10;
+    --bg-card: #11141a;
+    --bg-card-hover: #161b24;
+    --accent: #00bfff; /* Глубокий голубой под цвет лого */
+    --accent-glow: rgba(0, 191, 255, 0.3);
+    --text-main: #f0f3f5;
+    --text-muted: #8a99a8;
+    --border-color: #1f2633;
+    --font-stack: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+    font-family: var(--font-stack);
+    background-color: var(--bg-main);
+    color: var(--text-main);
+}
+
+body {
+    overflow-x: hidden;
+}
+
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Кнопки */
+.btn {
+    display: inline-block;
+    text-decoration: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: all 0.25s ease;
+    cursor: pointer;
+}
+
+.btn-primary {
+    background-color: var(--accent);
+    color: #000;
+    box-shadow: 0 4px 15px var(--accent-glow);
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 191, 255, 0.5);
+}
+
+.btn-secondary {
+    background: var(--bg-card);
+    color: var(--text-main);
+    border: 1px solid var(--border-color);
+}
+
+.btn-secondary:hover {
+    background: var(--border-color);
+    border-color: var(--accent);
+}
+
+.btn-outline {
+    background: transparent;
+    color: var(--text-main);
+    border: 1px solid var(--border-color);
+}
+
+.btn-outline:hover {
+    background: rgba(255, 255, 255, 0.03);
+    border-color: var(--text-muted);
+}
+
+/* Шапка сайта */
+.header {
+    background: rgba(10, 12, 16, 0.8);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border-color);
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 100;
+}
+
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 70px;
+}
+
+.logo-block {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.logo-img {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+}
+
+.logo-text {
+    font-size: 1.3rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+.nav {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+}
+
+.nav-link {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 0.95rem;
+    transition: color 0.2s ease;
+}
+
+.nav-link:hover {
+    color: var(--accent);
+}
+
+/* Главный экран */
+.hero {
+    padding: 160px 0 100px 0;
+    text-align: center;
+    background: radial-gradient(circle at top, rgba(0, 191, 255, 0.07) 0%, transparent 60%);
+}
+
+.hero-title {
+    font-size: 3.5rem;
+    font-weight: 800;
+    line-height: 1.2;
+    margin-bottom: 20px;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.hero-title span {
+    color: var(--accent);
+    text-shadow: 0 0 20px var(--accent-glow);
+}
+
+.hero-subtitle {
+    font-size: 1.25rem;
+    color: var(--text-muted);
+    max-width: 600px;
+    margin: 0 auto 40px auto;
+    line-height: 1.6;
+}
+
+.hero-actions {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+}
+
+/* Разделы общего назначения */
+.section-title {
+    text-align: center;
+    font-size: 2.2rem;
+    font-weight: 700;
+    margin-bottom: 50px;
+}
+
+/* Преимущества */
+.features {
+    padding: 80px 0;
+}
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 24px;
+}
+
+.feature-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    padding: 35px;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+}
+
+.feature-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--accent);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.feature-icon {
+    font-size: 2rem;
+    margin-bottom: 20px;
+}
+
+.feature-card h3 {
+    font-size: 1.3rem;
+    margin-bottom: 12px;
+}
+
+.feature-card p {
+    color: var(--text-muted);
+    line-height: 1.6;
+    font-size: 0.95rem;
+}
+
+/* Changelog (Лог обновлений) */
+.changelog {
+    padding: 80px 0;
+    background: linear-gradient(180deg, transparent, rgba(17, 20, 26, 0.4), transparent);
+}
+
+.changelog-wrapper {
+    max-width: 800px;
+    margin: 0 auto;
+    border-left: 2px solid var(--border-color);
+    padding-left: 30px;
+    position: relative;
+}
+
+.changelog-item {
+    position: relative;
+    margin-bottom: 40px;
+}
+
+.changelog-item::before {
+    content: '';
+    position: absolute;
+    left: -41px;
+    top: 6px;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: var(--bg-main);
+    border: 2px solid var(--border-color);
+    transition: all 0.3s ease;
+}
+
+.changelog-item.current::before {
+    border-color: var(--accent);
+    background: var(--accent);
+    box-shadow: 0 0 10px var(--accent);
+}
+
+.changelog-meta {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+.version-badge {
+    background: var(--border-color);
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--text-main);
+}
+
+.changelog-item.current .version-badge {
+    background: rgba(0, 191, 255, 0.15);
+    color: var(--accent);
+    border: 1px solid rgba(0, 191, 255, 0.3);
+}
+
+.version-badge.beta {
+    background: rgba(235, 94, 40, 0.15);
+    color: #eb5e28;
+    border: 1px solid rgba(235, 94, 40, 0.3);
+}
+
+.changelog-date {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+}
+
+.changelog-content h3 {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+}
+
+.changelog-content ul {
+    list-style-type: none;
+}
+
+.changelog-content li {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin-bottom: 6px;
+    position: relative;
+    padding-left: 15px;
+}
+
+.changelog-content li::before {
+    content: "•";
+    color: var(--accent);
+    position: absolute;
+    left: 0;
+}
+
+/* Секция Загрузки */
+.download-section {
+    padding: 100px 0;
+    text-align: center;
+}
+
+.download-container {
+    background: linear-gradient(135deg, var(--bg-card) 0%, #161b24 100%);
+    border: 1px solid var(--border-color);
+    padding: 60px 40px;
+    border-radius: 16px;
+    max-width: 900px;
+    margin: 0 auto;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+}
+
+.download-container h2 {
+    font-size: 2.2rem;
+    margin-bottom: 15px;
+}
+
+.download-container p {
+    color: var(--text-muted);
+    margin-bottom: 35px;
+    font-size: 1.1rem;
+}
+
+.download-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+}
+
+.btn-large {
+    padding: 16px 40px;
+    font-size: 1.1rem;
+}
+
+.version-info {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+}
+
+/* Подвал */
+.footer {
+    border-top: 1px solid var(--border-color);
+    padding: 30px 0;
+    text-align: center;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+}
+
+.footer a {
+    color: var(--text-main);
+    text-decoration: none;
+}
+
+.footer a:hover {
+    color: var(--accent);
+}
+
+/* 📱 Мобильная адаптация */
+@media (max-width: 768px) {
+    .header-container {
+        height: auto;
+        padding: 15px 20px;
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .nav {
+        gap: 15px;
+        width: 100%;
+        justify-content: center;
+    }
+
+    .hero {
+        padding: 180px 0 60px 0;
+    }
+
+    .hero-title {
+        font-size: 2.2rem;
+    }
+
+    .hero-subtitle {
+        font-size: 1rem;
+    }
+
+    .hero-actions {
+        flex-direction: column;
+        align-items: stretch;
+        padding: 0 20px;
+    }
+
+    .section-title {
+        font-size: 1.8rem;
+    }
+
+    .download-container {
+        padding: 40px 20px;
+    }
+
+    .download-container h2 {
+        font-size: 1.7rem;
+    }
+}

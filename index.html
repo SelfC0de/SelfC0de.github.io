@@ -1,23 +1,116 @@
 <!DOCTYPE html>
-<html lang="ru" data-theme="dark">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/png" href="/h2ray-logo.png" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-    <meta name="theme-color" content="#050912" />
-    <meta name="color-scheme" content="dark light" />
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>H2Ray — Интернет без границ. На твоих условиях.</title>
-    <meta name="description" content="H2Ray — приватный VPN-клиент для Android с поддержкой VLESS, Reality и Trojan. Без логов, без рекламы, без компромиссов." />
-    <meta property="og:title" content="H2Ray — Интернет без границ" />
-    <meta property="og:description" content="Приватный VPN-клиент для Android. VLESS · Reality · Trojan · Shadowsocks." />
-    <meta property="og:image" content="/h2ray-logo.png" />
-    <meta property="og:type" content="website" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet" />
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header class="header">
+        <div class="container header-container">
+            <div class="logo-block">
+                <img src="H2Ray_logo.png" alt="H2Ray Logo" class="logo-img">
+                <span class="logo-text">H2Ray</span>
+            </div>
+            <nav class="nav">
+                <a href="#features" class="nav-link">Преимущества</a>
+                <a href="#changelog" class="nav-link">Changelog</a>
+                <a href="#download" class="btn btn-secondary">Скачать</a>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container hero-container">
+            <h1 class="hero-title">Интернет без границ.<br><span>На твоих условиях.</span></h1>
+            <p class="hero-subtitle">H2Ray — приватный VPN-клиент для Android с поддержкой VLESS, Reality и Trojan. Без логов, без рекламы, без компромиссов.</p>
+            <div class="hero-actions">
+                <a href="#download" class="btn btn-primary">Получить H2Ray</a>
+                <a href="https://github.com/SelfC0de/H2Ray" target="_blank" class="btn btn-outline">GitHub Репозиторий</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="features" class="features">
+        <div class="container">
+            <h2 class="section-title">Почему H2Ray?</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <h3>Максимальная скорость</h3>
+                    <p>Оптимизированные протоколы обеспечивают минимальный пинг и стабильное соединение без просадок.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🛡️</div>
+                    <h3>Полная невидимость</h3>
+                    <p>Эффективно обходит системы глубокого анализа пакетов (DPI), маскируя ваш трафик под обычный веб-серфинг.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">⚙️</div>
+                    <h3>Легковесность</h3>
+                    <p>Никакого лишнего мусора в коде. Клиент работает плавно, не нагружая систему и процессор.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="changelog" class="changelog">
+        <div class="container">
+            <h2 class="section-title">История обновлений</h2>
+            <div class="changelog-wrapper">
+                
+                <div class="changelog-item current">
+                    <div class="changelog-meta">
+                        <span class="version-badge">v1.0.0</span>
+                        <span class="changelog-date">Сегодня</span>
+                    </div>
+                    <div class="changelog-content">
+                        <h3>Релиз первой публичной версии</h3>
+                        <ul>
+                            <li>Реализована базовая поддержка современных протоколов обхода блокировок.</li>
+                            <li>Добавлена система динамического переключения узлов.</li>
+                            <li>Оптимизировано потребление оперативной памяти под нагрузкой.</li>
+                            <li>Исправлены мелкие ошибки интерфейса и повышена стабильность ядра.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="changelog-item">
+                    <div class="changelog-meta">
+                        <span class="version-badge beta">Beta</span>
+                        <span class="changelog-date">Скоро</span>
+                    </div>
+                    <div class="changelog-content">
+                        <h3>Планируемые улучшения</h3>
+                        <ul>
+                            <li>Добавление встроенного теста скорости узлов.</li>
+                            <li>Расширенное логирование для отладки сложных подключений.</li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section id="download" class="download-section">
+        <div class="container download-container">
+            <h2>Готов вернуть свободу?</h2>
+            <p>Скачай актуальную сборку H2Ray прямо сейчас и забудь про ограничения.</p>
+            <div class="download-box">
+                <a href="https://github.com/SelfC0de/H2Ray/releases" target="_blank" class="btn btn-primary btn-large">Скачать APK-файл</a>
+                <span class="version-info">Текущая стабильная версия: 1.0.0</span>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container footer-container">
+            <p>&copy; 2026 H2Ray. Все права защищены. Разработано <a href="https://github.com/SelfC0de" target="_blank">SelfCode</a>.</p>
+        </div>
+    </footer>
+
+</body>
 </html>
